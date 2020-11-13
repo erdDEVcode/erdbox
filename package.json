@@ -1,6 +1,6 @@
 {
-  "name": "erd-connect",
-  "version": "1.0.1",
+  "name": "elrond-connect",
+  "version": "1.0.0",
   "description": "Drop-in widget for connecting Dapps to Elrond and interacting with user wallets",
   "main": "dist/erd-connect.js",
   "types": "dist/erd-connect.d.ts",

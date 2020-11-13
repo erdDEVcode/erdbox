@@ -12,7 +12,7 @@ Alternatively, you can add it dynamically via Javascript:
 
 _TODO_
 
-Once the script is loaded the `window.erd` object will become available.
+Once the script is loaded the `window.elrond` object will become available.
 
 Please read the docs _(COMING SOON)_ for information on how to use this.
 
@@ -26,7 +26,7 @@ Start the dev server
 yarn dev
 ```
 
-The script will now be available at http://localhost:9000/erd-connect.js 
+The script will now be available at http://localhost:9000/elrond-connect.js 
 
 ## License
 

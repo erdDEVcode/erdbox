@@ -35,7 +35,7 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
       if (_.get(data, 'id')) {
         switch (data.type) {
           case IPC.WIDGET_READY:
-            Window.dispatchEvent(new Window.Event('erd-connect-ready'))
+            Window.dispatchEvent(new Window.Event('elrond-connect-ready'))
             break
           case IPC.RESPONSE:
             this._handleIpcResponse(data)
@@ -111,14 +111,14 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
 
 export const initProxy = () => {
   if (Window) {
-    const scriptTag = Window.document.getElementById('erd-connect')
+    const scriptTag = Window.document.getElementById('elrond-connect')
     if (!scriptTag) {
       return
     }
     const scriptSrc = scriptTag.getAttribute('src')
 
     const iframeSrc =
-      `<body id='erd-connect'><script type='text/javascript' src='${scriptSrc}'></script></body>`
+      `<body id='elrond-connect'><script type='text/javascript' src='${scriptSrc}'></script></body>`
 
     const iframe = Window.document.createElement('iframe');
     iframe.style.position = 'absolute'
@@ -130,7 +130,7 @@ export const initProxy = () => {
     iframe.style.display = 'none'
     Window.document.body.appendChild(iframe)
 
-    Window.erd = new ErdConnectImpl(iframe)
+    Window.elrond = new ErdConnectImpl(iframe)
 
     // kick-off!
     const iframeWindow = iframe.contentWindow

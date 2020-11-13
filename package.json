@@ -2,8 +2,8 @@
   "name": "elrond-connect",
   "version": "1.0.2",
   "description": "Drop-in widget for connecting Dapps to Elrond and interacting with user wallets",
-  "main": "dist/erd-connect.js",
-  "types": "dist/erd-connect.d.ts",
+  "main": "dist/elrond-connect.js",
+  "types": "dist/elrond-connect.d.ts",
   "author": "erdDEV team (https://erd.dev)",
   "homepage": "https://connect.erd.dev",
   "license": "AGPLv3",
@@ -44,7 +44,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "release": "semantic-release",
-    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/erd-connect.d.ts",
+    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/elrond-connect.d.ts",
     "dev": "npm run types && webpack serve",
     "build": "npm run types && NODE_ENV=production webpack"
   },

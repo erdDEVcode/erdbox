@@ -9,7 +9,7 @@ module.exports = {
   target: 'web',
   entry: "./src/index.ts",
   output: {
-    filename: "erd-connect.js",
+    filename: "elrond-connect.js",
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {

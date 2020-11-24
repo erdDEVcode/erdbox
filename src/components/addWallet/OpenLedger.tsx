@@ -9,8 +9,6 @@ import ResolvedWallet from './ResolvedWallet'
 import Button from '../Button'
 import ErrorBox from '../ErrorBox'
 import Icon from '../Icon'
-import LedgerSvg from '../LedgerSvg'
-import IconWithTooltip from '../IconWithTooltip'
 
 const Container = styled.div`
   ${flex({ direction: 'column', justify: 'center', align: 'center' })}
@@ -41,20 +39,12 @@ const Content = styled.div`
   }
 `
 
-const StyledLedgerSvg = styled(LedgerSvg)`
+const LedgerIcon = styled(Icon)`
   width: 160px;
-`
-
-const InfoIcon = styled(IconWithTooltip)`
-  font-size: 1rem;
 `
 
 const ConnectButton = styled(Button)`
   margin: 2rem 0 1rem;
-`
-
-const NotSupported = styled.p`
-  font-size: 2rem;
 `
 
 interface Props {
@@ -79,8 +69,8 @@ const OpenLedger: React.FunctionComponent<Props> = ({ renderSuccess }) => {
   return (
     <Container>
       <Content>
-        <StyledLedgerSvg />
-        <p>Connect your Ledger and open the Elrond app <InfoIcon icon='info' tooltip='You may need to enable "Developer Mode" on your Ledger to install the Elrond app.' /></p>
+        <LedgerIcon name='ledger' />
+        <p>Connect your Ledger and open the Elrond app.</p>
         {wallet ? null : (
           <React.Fragment>
             <ConnectButton onClick={connect}>Connect to wallet</ConnectButton>

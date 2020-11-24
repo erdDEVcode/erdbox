@@ -18,22 +18,15 @@ const StyledButton = styled.button`
   })};
 `
 
-const StyledIcon = styled(Icon)`
-  & + div {
-    margin-left: 0.5em;
-  }
-`
-
 const Content = styled.div`
   display: inline-block;
 `
 
-const Button: React.FunctionComponent<ButtonProps> = ({ children, icon, tooltip, onClick, ...props }) => {
+const Button: React.FunctionComponent<ButtonProps> = ({ children, tooltip, onClick, ...props }) => {
   return (
     <Tooltip content={tooltip}>
       {({ tooltipElement, show, hide }) => (
         <StyledButton {...props} onClick={onClick} onMouseOver={show} onMouseOut={hide}>
-          {icon ? <StyledIcon name={icon} /> : null}
           {children ? <Content>{children}</Content> : null}
           {tooltipElement}
         </StyledButton>

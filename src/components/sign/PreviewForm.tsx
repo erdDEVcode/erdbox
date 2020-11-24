@@ -13,9 +13,9 @@ import TotalCost from './TotalCost'
 import TextArea from '../TextArea'
 import ErrorBox from '../ErrorBox'
 import Button from '../Button'
-import IconButton from '../IconButton'
 import TextButton from '../TextButton'
 import { DisplayOptions } from './interfaces'
+import SmallButton from '../SmallButton'
 
 const Container = styled.div``
 
@@ -28,6 +28,10 @@ const FinalGroup = styled(Group)``
 const Label = styled.div`
   ${flex({ direction: 'row', justify: 'space-between', align: 'center' })};
   margin-bottom: 0.2rem;
+
+  span {
+    ${flex({ direction: 'row', justify: 'flex-start', align: 'center' })};
+  }
 `
 
 const Col = styled.div`
@@ -77,8 +81,9 @@ const GasPrice = styled(Line)`
   min-width: 12em;
 `
 
-const ResetButton = styled(IconButton)`
-  font-size: 0.5rem;
+const ResetButton = styled(SmallButton)`
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
 `
 
 const GasTotal = styled.div`
@@ -148,6 +153,11 @@ const PreviewForm: React.FunctionComponent<PreviewProps> = ({
       return null
     }
   }, [balanceDec])
+
+  const resetGas = useCallback(() => {
+    resetGasLimit()
+    resetGasPrice()
+  }, [ resetGasLimit, resetGasPrice ])
 
   const updateCryptoValue = useCallback(v => {
     if (!NUMBER_REGEX.exec(v)) {
@@ -309,20 +319,26 @@ const PreviewForm: React.FunctionComponent<PreviewProps> = ({
         </Group>
       ) : (
         <Group>
-          <AddDataButton icon='plus' onClick={setShowDataInput}>Add data</AddDataButton>
+          <AddDataButton onClick={setShowDataInput}>
+            + Add data
+          </AddDataButton>
         </Group>
       )}
       <Group>
-        <Label>Transaction fee:</Label>
+        <Label>
+          <span>
+            Transaction fee: <ResetButton tooltip='Reset gas price and limit' onClick={resetGas}>Reset</ResetButton>
+          </span>
+        </Label>
         <GasCol>
           <GasPrice>
             <StyledTextInput value={gasLimitValue} onChange={updateGasLimitValue} type='number' />
-            <span>Gas limit <ResetButton icon='refresh' tooltip='Reset' onClick={resetGasLimit} /></span>
+            <span>Gas limit</span>
           </GasPrice>
           <span>x</span>
           <GasLimit>
             <StyledTextInput value={gasPriceValue} onChange={updateGasPriceValue} type='number' />
-            <span>Gas price <ResetButton icon='refresh' tooltip='Reset' onClick={resetGasPrice} /></span>
+            <span>Gas price</span>
           </GasLimit>
           <span>=</span>
           <GasTotal>{totalGasValue}</GasTotal>

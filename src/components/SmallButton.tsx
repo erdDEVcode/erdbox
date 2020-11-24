@@ -8,11 +8,10 @@ const StyledButton = styled(Button)`
   padding: 0.4em 0.5em;
 `
 
-const IconButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => (
+const SmallButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => (
   <StyledButton {...props} />
 )
 
-export default IconButton
-
+export default SmallButton
 
 

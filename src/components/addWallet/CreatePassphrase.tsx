@@ -5,9 +5,9 @@ import { BasicWallet, generateMnemonic } from 'elrondjs'
 
 import ResolvedWallet from './ResolvedWallet'
 import Button from '../Button'
-import IconButton from '../IconButton'
 import TextInput from '../TextInput'
 import { numToDateStr } from '../../utils'
+import SmallButton from '../SmallButton'
 
 const Container = styled.div`
   ${flex({ direction: 'column', justify: 'center', align: 'center' })}
@@ -23,11 +23,12 @@ const Mnemonic = styled.div`
   position: relative;
 `
 
-const RefreshButton = styled(IconButton)`
+const RefreshButton = styled(SmallButton)`
   font-size: 0.6rem;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  padding: 0.5em 1em;
 `
 
 const StyledResolvedWallet = styled(ResolvedWallet)`
@@ -144,14 +145,14 @@ const CreatePassphrase: React.FunctionComponent<Props> = ({ renderSuccess }) => 
             ))}
           </Words>
           {wallet ? null : (
-            <TryAgainButton onClick={tryAgain} icon='undo'>Try again</TryAgainButton>
+            <TryAgainButton onClick={tryAgain} tooltip='Try with a new mnemonic'>Try again</TryAgainButton>
           )}
         </React.Fragment>
       ) : (
         <React.Fragment>
           <Mnemonic>
             {mnemonic.join(' ')}
-            <RefreshButton title='Re-generate' onClick={generate} icon='refresh' />
+            <RefreshButton tooltip='Generate a new one' onClick={generate}>Re-generate</RefreshButton>
           </Mnemonic>
           <TestButton onClick={testUser}>I have written this down offline</TestButton>
         </React.Fragment>

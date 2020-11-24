@@ -9,7 +9,7 @@ import TotalCost from './TotalCost'
 import FiatValue from './FiatValue'
 import ErrorBox from '../ErrorBox'
 import LoadingIcon from '../LoadingIcon'
-import LedgerSvg from '../LedgerSvg'
+import Icon from '../Icon'
 import { DisplayOptions } from './interfaces'
 
 
@@ -183,7 +183,7 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
         </Button>
         {(signing && (wallet instanceof LedgerWallet)) ? (
           <WaitingForLedger>
-            <LedgerSvg />
+            <Icon name='ledger' />
             <span>Please confirm on your Ledger...</span>
           </WaitingForLedger>
         ) : null}

@@ -1,9 +1,12 @@
 import React from 'react'
 
 import { ButtonContainer, Button } from './Buttons'
-import LedgerSvg from '../LedgerSvg'
-import SeedSvg from '../SeedSvg'
-import FileWalletSvg from '../FileWalletSvg'
+import Icon from '../Icon'
+import styled from '@emotion/styled'
+
+const ButtonIcon = styled(Icon)`
+  margin-right: 0.5em;
+`
 
 interface Props {
   openLedger: () => void,
@@ -15,15 +18,15 @@ const OpenWallet: React.FunctionComponent<Props> = ({ openLedger, openPassphrase
   return (
     <ButtonContainer>
       <Button onClick={openPassphrase}>
-        <SeedSvg />
+        <ButtonIcon name='seed' />
         <div>Seed phrase / mnemonic</div>
       </Button>
       <Button onClick={openPemJson}>
-        <FileWalletSvg />
+        <ButtonIcon name='fileWallet' />
         <div>JSON or PEM file</div>
       </Button>
       <Button onClick={openLedger}>
-        <LedgerSvg />
+        <ButtonIcon name='ledger' />
         <div>Ledger Nano</div>
       </Button>
     </ButtonContainer>

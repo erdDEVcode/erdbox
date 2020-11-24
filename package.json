@@ -5,7 +5,7 @@
   "main": "dist/erdbox.js",
   "types": "dist/erdbox.d.ts",
   "author": "erdDEV team (https://erd.dev)",
-  "homepage": "https://connect.erd.dev",
+  "homepage": "https://erdbox.erd.dev",
   "license": "AGPLv3",
   "files": [
     "dist",

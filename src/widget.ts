@@ -2,7 +2,7 @@ require('./polyfills')
 import { Address, ContractQueryParams, ContractQueryResult, Provider, NetworkConfig, SignedTransaction, Transaction, TransactionOnChain, TransactionReceipt, TransactionTracker } from 'elrondjs'
 import { sendIpcResponse, _ } from './utils'
 import { onceAppReady } from './App'
-import { GetWalletAddressOptions, IPC, IpcResponse } from './types/all'
+import { GetWalletAddressOptions, IPC, IpcRequest, IpcResponse, IpcTarget } from './types/all'
 import { IpcBase } from './utils'
 
 export const initWidget = () => {
@@ -13,7 +13,7 @@ export const initWidget = () => {
       _config: NetworkConfig
 
       constructor (config: NetworkConfig) {
-        super(Window.parent)
+        super(Window.parent, IpcTarget.PROXY)
         this._config = config
       }
 
@@ -42,9 +42,9 @@ export const initWidget = () => {
     Window.addEventListener('message', async (e: any) => {
       const eventData = _.get(e, 'data', {})
       
-      const { id, type, data } = eventData
+      const { target, id, type, data } = eventData as IpcRequest
 
-      if (id && type) {
+      if (id && type && target === IpcTarget.WIDGET) {
         const App = await onceAppReady()
 
         let ret
@@ -59,21 +59,23 @@ export const initWidget = () => {
             case IPC.GET_WALLET_ADDRESS:
               ret = await App.getWalletAddress(data as GetWalletAddressOptions)
               break
-            case IPC.SIGN_AND_SEND_TRANSACTION:
-              ret = await App.signAndSendTransaction(data as Transaction)
+            case IPC.SIGN_TRANSACTION:
+              ret = await App.signTransaction(data as Transaction)
               break
             case IPC.RESPONSE:
               if (ipcProvider) {
                 ipcProvider._handleIpcResponse(eventData as IpcResponse)
               }
-              break
+              return // so that we don't send an unnecessary response back to the proxy
             default:
               throw new Error('Bad IPC command')
           }
 
-          sendIpcResponse(Window.parent, { id, data: ret })
+          if (ret) {
+            sendIpcResponse(Window.parent, { target: IpcTarget.PROXY, id, data: ret })
+          }
         } catch (err) {
-          sendIpcResponse(Window.parent, { id, error: err.message })
+          sendIpcResponse(Window.parent, { target: IpcTarget.PROXY, id, error: err.message })
         }
       }
     }, false)
@@ -81,7 +83,7 @@ export const initWidget = () => {
     // inform parent proxy once we are ready!
     onceAppReady()
       .then(() => {
-        Window.parent.postMessage({ id: 1, type: IPC.WIDGET_READY }, '*')
+        Window.parent.postMessage({ target: IpcTarget.PROXY, id: 1, type: IPC.WIDGET_READY }, '*')
       })
       .catch(err => {
         console.error(err)

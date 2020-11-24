@@ -6,10 +6,10 @@ import { loadFonts, setFonts } from 'emotion-styled-utils'
 
 import { _ } from './utils'
 import { setupThemes } from './themes'
-import { GlobalProvider, ChainProvider, WalletProvider } from './contexts'
+import { GlobalProvider, ChainProvider } from './contexts'
 import GlobalStyles from './components/GlobalStyles'
 import ReactModal from 'react-modal'
-import SignAndSendModal from './components/SignModal'
+import SignModal from './components/SignModal'
 import AddWalletModal from './components/AddWalletModal'
 import { GetWalletAddressOptions } from './types/all'
 
@@ -76,7 +76,7 @@ class App extends React.Component {
           <ThemeProvider theme={themes.get('light')}>
             <GlobalStyles />
             <AddWalletModal ref={this._onWalletAdderRef} />
-            <SignAndSendModal ref={this._onSignerRef} />
+            <SignModal ref={this._onSignerRef} />
           </ThemeProvider>
         </ChainProvider>
       </GlobalProvider>
@@ -112,9 +112,9 @@ class App extends React.Component {
     }
   }
 
-  signAndSendTransaction = async (tx: Transaction) => {
+  signTransaction = async (tx: Transaction) => {
     if (this.signer) {
-      return this.signer.signAndSend(tx)
+      return this.signer.sign(tx)
     }
   }
 

@@ -5,7 +5,6 @@ import { _ } from '../utils'
 import Modal from './Modal'
 import { DisplayOptions } from './sign/interfaces'
 import Sign from './sign/Sign'
-import { ChainConsumer, GlobalConsumer, WalletProvider } from '../contexts'
 
 interface Props {
 }
@@ -34,44 +33,28 @@ export default class SignModal extends Component<Props> implements SignModalInte
     const { onRequestClose, ...otherProps } = this.state.showModal || {}
 
     return (
-      <GlobalConsumer>
-        {globalCtx => (
-          <ChainConsumer>
-            {chainCtx => (
-              <WalletProvider activeWallet={globalCtx.activeWallet} chain={chainCtx}>
-                <Modal
-                  isOpen={isActive}
-                  width='700px'
-                  height='640px'
-                  onRequestClose={onRequestClose}
-                >
-                  <Sign isActive={isActive} {...otherProps} />
-                </Modal>
-              </WalletProvider>
-            )}
-          </ChainConsumer>
-        )}
-      </GlobalConsumer>
+      <Modal
+        isOpen={isActive}
+        width='700px'
+        height='640px'
+        onRequestClose={onRequestClose}
+      >
+        <Sign isActive={isActive} {...otherProps} />
+      </Modal>
     )
   }
 
   async sign(tx: Transaction) {
     return new Promise((resolve, reject) => {
-      let ret: SignedTransaction
-
       this.setState({
         showModal: {
           onRequestClose: () => {
             this.setState({ showModal: null })
-            if (ret) {
-              resolve(ret)
-            } else {
-              reject(new Error('User cancelled the process'))
-            }
+            reject(new Error('User cancelled the process'))
           },
           onComplete: (signedTx: SignedTransaction) => {
-            ret = signedTx
-            resolve(ret)
+            this.setState({ showModal: null })
+            resolve(signedTx)
           },
           initialValues: {
             toValue: tx.receiver,
@@ -83,9 +66,6 @@ export default class SignModal extends Component<Props> implements SignModalInte
           displayOptions: (_.get(tx, 'meta.displayOptions') as DisplayOptions),
         }
       })
-    })
-    .finally(() => {
-      this.setState({ showModal: null })
     })
   }
 }

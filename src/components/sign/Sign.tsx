@@ -4,10 +4,9 @@ import { SignedTransaction, Transaction, Wallet } from 'elrondjs'
 
 import { Balances, Rates } from '../../types/all'
 import {
+  GlobalConsumer,
   ChainConsumer,
   ChainContextValue,
-  WalletConsumer,
-  WalletContextValue,
 } from '../../contexts'
 import {
   AssetValue,
@@ -16,12 +15,12 @@ import {
   isValidGasPrice,
   isValidValue,
 } from '../../utils/number'
-import LoadingIcon from '../LoadingIcon'
 import SlidingPanels from '../SlidingPanels'
 import PreviewForm from './PreviewForm'
 import ConfirmForm from './ConfirmForm'
 import { DisplayOptions } from './interfaces'
 import ErrorBox from '../ErrorBox'
+import { useBalances, useRates } from '../../hooks'
 
 const Container = styled.div`
   background-color: ${(p: any) => p.theme.content.bgColor};
@@ -48,8 +47,6 @@ interface SendInitialValues {
 interface SignFormProps {
   chain: ChainContextValue,
   wallet: Wallet,
-  balances: Balances,
-  rates: Rates,
   className?: string,
   onError?: (err: any) => {},
   onComplete?: (signedTx: SignedTransaction) => {},
@@ -58,8 +55,11 @@ interface SignFormProps {
 }
 
 const SignForm: React.FunctionComponent<SignFormProps> = ({
-  className, chain, wallet, balances, rates, initialValues, onComplete, displayOptions,
+  className, chain, wallet, initialValues, onComplete, displayOptions,
 }) => {
+  const { balances } = useBalances(wallet, chain)
+  const { rates } = useRates()
+
   const primaryToken = useMemo(() => chain.primaryToken!, [chain])
 
   const [ txId, setTxId ] = useState('')
@@ -232,29 +232,26 @@ const Send: React.FunctionComponent<Props> = ({ isActive, className, onComplete,
   }
 
   return (
-    <WalletConsumer>
-      {(props: WalletContextValue) => (
-        (props.wallet) ? (
-          <ChainConsumer>
-            {(chain: ChainContextValue) => (
-              (chain.provider) ? (
-                <SignForm
-                  {...props}
-                  wallet={props.wallet!}
-                  chain={chain}
-                  className={className}
-                  onComplete={onComplete}
-                  initialValues={initialValues}
-                  displayOptions={displayOptions}
-                />
-              ) : (
+    <GlobalConsumer>
+      {globalCtx => (
+        <ChainConsumer>
+          {(chain: ChainContextValue) => (
+            (chain.provider) ? (
+              <SignForm
+                wallet={globalCtx.activeWallet!}
+                chain={chain}
+                className={className}
+                onComplete={onComplete}
+                initialValues={initialValues}
+                displayOptions={displayOptions}
+              />
+            ) : (
                 <ErrorBox>Provider not yet set!</ErrorBox>
               )
-            )}
-          </ChainConsumer>
-        ) : <LoadingIcon />
+          )}
+        </ChainConsumer>
       )}
-    </WalletConsumer>
+      </GlobalConsumer>
   )
 }
 

@@ -2,7 +2,7 @@ require('./polyfills')
 import { Provider, SignedTransaction, Signer, Transaction } from 'elrondjs'
 
 import { IpcBase, sendIpcResponse, _ } from './utils'
-import { IPC, ErdBox, IpcRequest, GetWalletAddressOptions } from './types/all'
+import { IPC, ErdBox, IpcRequest, GetWalletAddressOptions, IpcTarget } from './types/all'
 
 const Window: any = (typeof window !== 'undefined') ? window : {}
 
@@ -15,28 +15,30 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
   protected _signer: Signer
 
   constructor(iframe: HTMLIFrameElement) {
-    super(iframe.contentWindow!)
+    super(iframe.contentWindow!, IpcTarget.WIDGET)
     this._iframe = iframe
 
     this._signer = {
       signTransaction: async (tx: Transaction): Promise<SignedTransaction> => {
-        return this._callIpc(IPC.SIGN_TRANSACTION, tx)
+        return this._enableWidgetUi(() => this._callIpc(IPC.SIGN_TRANSACTION, tx))
       },
     }
 
     Window.addEventListener('message', (e: Event) => {
-      const data = _.get(e, 'data', {})
+      const eventData = _.get(e, 'data', {})
 
-      if (_.get(data, 'id')) {
-        switch (data.type) {
+      const { target, id, type, data } = eventData as IpcRequest
+
+      if (id && type && target === IpcTarget.PROXY) {
+        switch (type) {
           case IPC.WIDGET_READY:
             Window.dispatchEvent(new Window.Event('erdBox:ready'))
             break
           case IPC.RESPONSE:
-            this._handleIpcResponse(data)
+            this._handleIpcResponse(eventData)
             break
           default:
-            this._handleWidgetRequest(data)
+            this._handleWidgetRequest(eventData)
         }
       }
     }, false)
@@ -54,13 +56,13 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
             throw new Error('Provider not set')
           }
           const ret = await (provider as any)[method].apply(provider, params)
-          sendIpcResponse(this._iframe.contentWindow!, { id, data: ret })
+          sendIpcResponse(this._iframe.contentWindow!, { target: IpcTarget.WIDGET, id, data: ret })
           break
         default:
           throw new Error(`Unexpected call from widget: ${req.type}`)
       }
     } catch (err) {
-      sendIpcResponse(this._iframe.contentWindow!, { id, error: err.message })
+      sendIpcResponse(this._iframe.contentWindow!, { target: IpcTarget.WIDGET, id, error: err.message })
     }
   }
 

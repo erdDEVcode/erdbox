@@ -1,16 +1,18 @@
 import { PromiseResolver } from 'elrond-data'
-import { IPC, IpcRequest, IpcResponse } from "../types/all"
+import { IPC, IpcRequest, IpcResponse, IpcTarget } from "../types/all"
 
 export const sendIpcResponse = (w: Window, res: IpcResponse) => {
-  w.postMessage({ id: res.id, type: IPC.RESPONSE, data: res.data, error: res.error }, '*')
+  w.postMessage({ target: res.target, id: res.id, type: IPC.RESPONSE, data: res.data, error: res.error }, '*')
 }
 
 export class IpcBase {
   protected _currentExecutionId: number = 1 // >0 so that we can do boolean checks
   protected _pendingExecutions: Record<number, PromiseResolver> = {}
-  protected _ipcTarget: Window
+  protected _ipcTargetWindow: Window
+  protected _ipcTarget: IpcTarget
 
-  constructor (ipcTarget: Window) {
+  constructor (ipcTargetWindow: Window, ipcTarget: IpcTarget) {
+    this._ipcTargetWindow = ipcTargetWindow
     this._ipcTarget = ipcTarget
   }
 
@@ -21,12 +23,13 @@ export class IpcBase {
       this._pendingExecutions[id] = { resolve, reject }
 
       const req: IpcRequest = {
+        target: this._ipcTarget,
         id,
         type,
         data,
       }
 
-      this._ipcTarget.postMessage(req, '*')
+      this._ipcTargetWindow.postMessage(req, '*')
     })
   }
 

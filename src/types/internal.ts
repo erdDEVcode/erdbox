@@ -10,17 +10,23 @@ export enum IPC {
   SHOW_WALLET_LOADER,
   GET_WALLET_ADDRESS,
   SIGN_TRANSACTION,
-  SIGN_AND_SEND_TRANSACTION,
   CALL_PROXY_PROVIDER,
 }
 
+export enum IpcTarget {
+  PROXY = 1,
+  WIDGET,
+}
+
 export interface IpcResponse {
+  target: IpcTarget,
   id: number,
   data?: any,
   error?: string,
 }
 
 export interface IpcRequest {
+  target: IpcTarget,
   id: number,
   type: IPC,
   data?: any,

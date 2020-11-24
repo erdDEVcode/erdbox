@@ -1,7 +1,7 @@
 {
   "name": "erd-box",
   "version": "1.2.0",
-  "description": "Drop-in widget for connecting Dapps to Elrond and interacting with user wallets",
+  "description": "Drop-in widget for connecting Elrond dapps to user wallets",
   "main": "dist/erd-box.js",
   "types": "dist/erd-box.d.ts",
   "author": "erdDEV team (https://erd.dev)",

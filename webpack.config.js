@@ -9,7 +9,7 @@ module.exports = {
   target: 'web',
   entry: "./src/index.ts",
   output: {
-    filename: "erd-box.js",
+    filename: "erdbox.js",
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {

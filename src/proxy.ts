@@ -32,7 +32,7 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
       if (id && type && target === IpcTarget.PROXY) {
         switch (type) {
           case IPC.WIDGET_READY:
-            Window.dispatchEvent(new Window.Event('erdBox:ready'))
+            Window.dispatchEvent(new Window.Event('erdbox:ready'))
             break
           case IPC.RESPONSE:
             this._handleIpcResponse(eventData)
@@ -100,14 +100,14 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
 
 export const initProxy = () => {
   if (Window) {
-    const scriptTag = Window.document.getElementById('erdBoxScript')
+    const scriptTag = Window.document.getElementById('erdboxScript')
     if (!scriptTag) {
       return
     }
     const scriptSrc = scriptTag.getAttribute('src')
 
     const iframeSrc =
-      `<body id='erdBoxWidget'><script type='text/javascript' src='${scriptSrc}'></script></body>`
+      `<body id='erdboxWidget'><script type='text/javascript' src='${scriptSrc}'></script></body>`
 
     const iframe = Window.document.createElement('iframe');
     iframe.style.position = 'absolute'
@@ -119,7 +119,7 @@ export const initProxy = () => {
     iframe.style.display = 'none'
     Window.document.body.appendChild(iframe)
 
-    Window.erdBox = new ErdBoxImpl(iframe)
+    Window.erdbox = new ErdBoxImpl(iframe)
 
     // kick-off!
     const iframeWindow = iframe.contentWindow

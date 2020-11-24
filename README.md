@@ -1,8 +1,8 @@
-[![NPM module](https://badge.fury.io/js/erd-box.svg)](https://badge.fury.io/js/erd-box)
+[![NPM module](https://badge.fury.io/js/erdbox.svg)](https://badge.fury.io/js/erdbox)
 [![Join the community](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg?color=0088cc)](https://t.me/erdDEV)
 [![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/erd_dev)
 
-# erdBox
+# erdbox
 
 Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's wallets.
 
@@ -20,11 +20,11 @@ Include the following `script` tag anywhere within your HTML:
 ```html
 <script type="text/javascript">
   const g = window.document.createElement('script');
-  g.id = 'erdBoxScript';
+  g.id = 'erdboxScript';
   g.type = 'text/javascript';
   g.async = true;
   g.defer = true;
-  g.src = 'https://cdn.jsdelivr.net/npm/erd-box@1.2.0/dist/erd-box.js';
+  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.2.0/dist/erdbox.js';
   window.document.body.appendChild(g);
 </script>
 ```
@@ -32,13 +32,13 @@ Include the following `script` tag anywhere within your HTML:
 Then in your Javascript code:
 
 ```js
-window.addEventListener('erdBox:ready', async () => {
+window.addEventListener('erdbox:ready', async () => {
   /*
-    `window.erdBox` is now available for use!
+    `window.erdbox` is now available for use!
   */
 
   // Example: ask user to connect a wallet
-  const address = await window.erdBox.getWalletAddress({ mustLoadWallet: true });
+  const address = await window.erdbox.getWalletAddress({ mustLoadWallet: true });
   alert(`User wallet address: ${address}`);
 }, { once: true });
 ```
@@ -59,10 +59,10 @@ Start the dev server
 yarn dev
 ```
 
-The script will now be available at http://localhost:9000/erd-box.js, so replace the embed code URL with this one:
+The script will now be available at http://localhost:9000/erdbox.js, so replace the embed code URL with this one:
 
 ```js
-g.src = 'http://localhost:9000/erd-box.js'
+g.src = 'http://localhost:9000/erdbox.js'
 ```
 
 ## License

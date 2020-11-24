@@ -24,7 +24,7 @@ Include the following `script` tag anywhere within your HTML:
   g.type = 'text/javascript';
   g.async = true;
   g.defer = true;
-  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.6.0/dist/erdbox.js';
+  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.5.1/dist/erdbox.js';
   window.document.body.appendChild(g);
 </script>
 ```

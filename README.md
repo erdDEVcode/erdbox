@@ -1,20 +1,48 @@
+[![Join the community](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg?color=0088cc)](https://t.me/erdDEV)
+[![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/erd_dev)
+
 # erd-box
 
-Drop-in widget for securely connecting [Elrond](https://elrond.com) dapps to user wallets for signing transactions.
+Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's wallets.
+
+* Supports all wallet types: Mnemonic/seedphrase, JSON keyfile, PEM file, Ledger hardware
+* Full transaction signing (including smart contract interactions)
+* Easy and simple API
+* Works with any frontend framework and/or vanilla JS
+* Typescript definitions.
+* Full documentation coming soon!
 
 ## Usage
 
-Include the following `script` tag within your HTML:
+Include the following `script` tag anywhere within your HTML:
 
-_TODO_
+```html
+<script type="text/javascript">
+  const g = window.document.createElement('script');
+  g.id = 'erdBoxScript';
+  g.type = 'text/javascript';
+  g.async = true;
+  g.defer = true;
+  g.src = 'https://cdn.jsdelivr.net/npm/erd-box@1.2.0/dist/erd-box.js';
+  window.document.body.appendChild(g);
+</script>
+```
 
-Alternatively, you can add it dynamically via Javascript:
+Then in your Javascript code:
 
-_TODO_
+```js
+window.addEventListener('erdBox:ready', async () => {
+  /*
+    `window.erdBox` is now available for use!
+  */
 
-Once the script is loaded the `window.erd-box` object will become available.
+  // Example: ask user to connect a wallet
+  const address = await window.erdBox.getWalletAddress({ mustLoadWallet: true });
+  alert(`User wallet address: ${address}`);
+}, { once: true });
+```
 
-Please read the docs _(COMING SOON)_ for information on how to use this.
+Full documentation coming soon!
 
 ## Development
 
@@ -26,7 +54,11 @@ Start the dev server
 yarn dev
 ```
 
-The script will now be available at http://localhost:9000/erd-box.js 
+The script will now be available at http://localhost:9000/erd-box.js, so replace the embed code URL with this one:
+
+```js
+g.src = 'http://localhost:9000/erd-box.js'
+```
 
 ## License
 

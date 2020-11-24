@@ -1,9 +1,9 @@
 {
-  "name": "erdBox",
+  "name": "erd-box",
   "version": "1.1.0",
   "description": "Drop-in widget for connecting Dapps to Elrond and interacting with user wallets",
-  "main": "dist/erdBox.js",
-  "types": "dist/erdBox.d.ts",
+  "main": "dist/erd-box.js",
+  "types": "dist/erd-box.d.ts",
   "author": "erdDEV team (https://erd.dev)",
   "homepage": "https://connect.erd.dev",
   "license": "AGPLv3",
@@ -44,7 +44,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "release": "semantic-release",
-    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/erdBox.d.ts",
+    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/erd-box.d.ts",
     "dev": "npm run types && webpack serve",
     "build": "npm run types && NODE_ENV=production webpack"
   },

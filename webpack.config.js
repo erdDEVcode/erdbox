@@ -9,7 +9,7 @@ module.exports = {
   target: 'web',
   entry: "./src/index.ts",
   output: {
-    filename: "erdBox.js",
+    filename: "erd-box.js",
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
@@ -42,13 +42,12 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.browser': JSON.stringify(true),
     }),
-    // only want bip39 english wordlist
-    new webpack.IgnorePlugin(/^\.\/(?!english)/, /bip39\/src\/wordlists$/),
-    // new BundleAnalyzerPlugin({
-    //   analyzerMode: 'static',
-    //   defaultSizes: 'gzip',
-    //   openAnalyzer: false,
-    // }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      defaultSizes: 'gzip',
+      openAnalyzer: false,
+      reportFilename: path.join(__dirname, 'stats', 'report.html'),
+    }),
   ],
   mode: isProd ? 'production' : 'development',
   devtool: isProd ? undefined : 'inline-source-map',

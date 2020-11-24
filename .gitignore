@@ -1,4 +1,5 @@
 dist
+stats
 node_modules
 npm-*
 yarn-*

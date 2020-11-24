@@ -6,7 +6,7 @@ const Window: any = (typeof window !== 'undefined') ? window : {}
 
 if (Window) {
   Window.addEventListener('load', () => {
-    if (Window.document.body.id !== 'erdBox') {
+    if (Window.document.body.id !== 'erdBoxWidget') {
       initProxy()
     } else {
       initWidget()

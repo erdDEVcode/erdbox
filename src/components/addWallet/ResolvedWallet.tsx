@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { Wallet } from 'elrondjs'
 
-import { Wallet } from '../../types/all'
 import ValueBox from '../ValueBox'
 
 const Container = styled(ValueBox)`

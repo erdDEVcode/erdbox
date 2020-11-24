@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { PromiseResolver } from 'erdor'
+import { PromiseResolver } from 'elrond-data'
 
 import { _ } from '../utils'
 import Modal from './Modal'

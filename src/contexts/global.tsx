@@ -1,16 +1,5 @@
 import React from 'react'
-
-import { Wallet } from '../types/all'
-import { deriveWalletFromMnemonic } from '../wallet'
-import { WalletConsumer } from './wallet'
-
-interface UseWalletsResult {
-  wallets: Wallet[],
-  activeWallet?: Wallet,
-  setActiveWallet: (a: Wallet) => void,
-  addWallet: (a: Wallet) => void,
-  removeWallet: (a: Wallet) => void,
-}
+import { Wallet } from 'elrondjs'
 
 const getWalletIndex = (wallets: Wallet[], w: Wallet) => wallets.findIndex((a: Wallet) => a.address() === w.address())
 

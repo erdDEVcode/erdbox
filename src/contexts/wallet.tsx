@@ -1,5 +1,6 @@
 import React from 'react'
-import { Wallet, Balances, Rates } from '../types/all'
+import { Wallet } from 'elrondjs'
+import { Balances, Rates } from '../types/all'
 
 import { useBalances, useRates } from '../hooks'
 import { ChainContextValue } from './chain'

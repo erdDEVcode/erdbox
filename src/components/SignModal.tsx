@@ -1,37 +1,37 @@
 import React, { Component } from 'react'
-import { Transaction, TransactionReceipt } from 'erdor'
+import { SignedTransaction, Transaction } from 'elrondjs'
 
 import { _ } from '../utils'
 import Modal from './Modal'
-import { DisplayOptions } from './send/interfaces'
-import Send from './send/Send'
+import { DisplayOptions } from './sign/interfaces'
+import Sign from './sign/Sign'
 import { ChainConsumer, GlobalConsumer, WalletProvider } from '../contexts'
 
 interface Props {
 }
 
-interface SendModalState {
+interface SignModalState {
   onRequestClose: () => {},
-  onComplete: (receipt: TransactionReceipt) => {},
+  onComplete: (signedTx: SignedTransaction) => {},
   initialValues: object,
 }
 
 interface State {
-  showSendModal?: SendModalState,
+  showModal?: SignModalState,
 }
 
-export interface SignAndSendModalInterface {
-  signAndSend: (tx: Transaction) => Promise<any>
+export interface SignModalInterface {
+  sign: (tx: Transaction) => Promise<any>
 }
 
-export default class SignAndSendModal extends Component<Props> implements SignAndSendModalInterface {
+export default class SignModal extends Component<Props> implements SignModalInterface {
   state: State = {}
 
   /* render */
 
   render () {
-    const isActive = !!this.state.showSendModal
-    const { onRequestClose, ...otherProps } = this.state.showSendModal || {}
+    const isActive = !!this.state.showModal
+    const { onRequestClose, ...otherProps } = this.state.showModal || {}
 
     return (
       <GlobalConsumer>
@@ -45,7 +45,7 @@ export default class SignAndSendModal extends Component<Props> implements SignAn
                   height='640px'
                   onRequestClose={onRequestClose}
                 >
-                  <Send isActive={isActive} {...otherProps} />
+                  <Sign isActive={isActive} {...otherProps} />
                 </Modal>
               </WalletProvider>
             )}
@@ -55,23 +55,23 @@ export default class SignAndSendModal extends Component<Props> implements SignAn
     )
   }
 
-  async signAndSend(tx: Transaction) {
+  async sign(tx: Transaction) {
     return new Promise((resolve, reject) => {
-      let receipt: any = undefined
+      let ret: SignedTransaction
 
       this.setState({
-        showSendModal: {
+        showModal: {
           onRequestClose: () => {
-            this.setState({ showSendModal: null })
-            if (receipt) {
-              resolve(receipt)
+            this.setState({ showModal: null })
+            if (ret) {
+              resolve(ret)
             } else {
               reject(new Error('User cancelled the process'))
             }
           },
-          onComplete: (_receipt: TransactionReceipt) => {
-            receipt = _receipt
-            resolve(receipt)
+          onComplete: (signedTx: SignedTransaction) => {
+            ret = signedTx
+            resolve(ret)
           },
           initialValues: {
             toValue: tx.receiver,
@@ -85,7 +85,7 @@ export default class SignAndSendModal extends Component<Props> implements SignAn
       })
     })
     .finally(() => {
-      this.setState({ showSendModal: null })
+      this.setState({ showModal: null })
     })
   }
 }

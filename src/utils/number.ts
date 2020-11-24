@@ -1,7 +1,7 @@
-import { Balance, Rate } from 'erdor'
+import { Balance, Rate } from 'elrond-data'
 import Decimal from 'decimal.js'
+import { data, Token } from 'elrond-data'
 
-import Data, { TokenAsset } from '../data'
 
 const PreciseDecimal = Decimal.clone({ defaults: true, precision: 38, toExpNeg: -19, toExpPos: 38 })
 
@@ -18,29 +18,29 @@ interface AssetValueStringOptions {
 
 const isNotEmpty = (a: any) => a !== null && a !== undefined && a !== ''
 
-const getDivider = (asset: TokenAsset) => new PreciseDecimal(10).pow(asset.decimals)
+const getDivider = (asset: Token) => new PreciseDecimal(10).pow(asset.decimals)
 
 const toDec = (a: any) => new PreciseDecimal(a.toString())
 
 export class AssetValue {
-  _asset: TokenAsset
+  _asset: Token
   _decimalDivider: Decimal
   _n: Decimal
 
-  constructor(asset: TokenAsset, amount: any) {
+  constructor(asset: Token, amount: any) {
     this._asset = asset
     this._decimalDivider = getDivider(asset)
     this._n = new PreciseDecimal(amount)
   }
 
   static fromTokenAmount(token: string, amount: any) {
-    return new AssetValue(Data.getTokenOrCurrency(token), amount)
+    return new AssetValue(data.getToken(token), amount)
   }
 
   static fromTokenScaledAmount(token: string, scaledAmount: any) {
     return new AssetValue(
-      Data.getTokenOrCurrency(token),
-      new PreciseDecimal(scaledAmount).mul(getDivider(Data.getTokenOrCurrency(token))).toString()
+      data.getToken(token),
+      new PreciseDecimal(scaledAmount).mul(getDivider(data.getToken(token))).toString()
     )
   }
 
@@ -59,7 +59,7 @@ export class AssetValue {
     )
   }
 
-  getAsset(): TokenAsset {
+  getAsset(): Token {
     return this._asset
   }
 
@@ -92,7 +92,7 @@ export class AssetValue {
   }
 
   toCurrencyValue(rate: Rate): AssetValue {
-    return new AssetValue(Data.getCurrency(rate.currency), this._n.div(this._decimalDivider).mul(rate.value))
+    return new AssetValue(data.getToken(rate.currency), this._n.div(this._decimalDivider).mul(rate.value))
   }
 
   toBalance(): Balance {
@@ -148,10 +148,10 @@ export class AssetValue {
         str = value.toString()
     }
 
-    return this._formatString(str, Data.getTokenOrCurrency(rate.currency), options)
+    return this._formatString(str, data.getToken(rate.currency), options)
   }
 
-  _formatString(valueStr: string, asset: TokenAsset, options: AssetValueStringOptions = {}): string {
+  _formatString(valueStr: string, asset: Token, options: AssetValueStringOptions = {}): string {
     if (options.showSymbol) {
       if (asset.symbolFormatting) {
         return asset.symbolFormatting.replace('{symbol}', asset.symbol).replace('{value}', valueStr)

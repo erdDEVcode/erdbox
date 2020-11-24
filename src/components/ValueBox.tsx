@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import { Wallet } from '../types/all'
 
 const Container = styled.div`
   background-color: ${(p: any) => p.theme.valueBox.bgColor};
@@ -12,7 +11,6 @@ const Container = styled.div`
 `
 
 interface Props {
-  wallet?: Wallet,
   className?: string,
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
-import { Transaction } from 'erdor'
+import { LedgerWallet, SignedTransaction, Transaction } from 'elrondjs'
 
 import { AssetValueNumberStyle } from '../../utils'
 import Button from '../Button'
@@ -64,14 +64,14 @@ interface Props {
   className?: string,
   displayOptions?: DisplayOptions,
   onPrevious?: () => void,
-  onSend: (tx: Transaction) => Promise<void>,
+  onSign: (tx: Transaction) => Promise<any>,
   props: any,
 }
 
 const ConfirmForm: React.FunctionComponent<Props> = ({
   className,
   onPrevious,
-  onSend,
+  onSign,
   props: {
     wallet,
     fromValue,
@@ -88,7 +88,7 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
     totalCurrencyValue,
   },
 }) => {
-  const [ sending, setSending ] = useState<boolean>(false)
+  const [ signing, setSigning ] = useState<boolean>(false)
   const [ error, setError ] = useState<string>('')
 
   const transferValueString = useMemo(() => {
@@ -107,12 +107,12 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
     }
   }, [rate, transferValueDec])
 
-  const doSend = useCallback(async () => {
-    if (sending) {
+  const doSign = useCallback(async () => {
+    if (signing) {
       return
     }
 
-    setSending(true)
+    setSigning(true)
     setError('')
     
     const tx: Transaction = {
@@ -124,13 +124,13 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
       data: dataValue,
     }
 
-    onSend(tx)
+    onSign(tx)
       .catch(err => {
         console.error(err)
         setError(err.message)
       })
       .finally(() => {
-        setSending(false)
+        setSigning(false)
       })
   }, [
     fromValue,
@@ -139,8 +139,8 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
     transferValueDec,
     gasPriceValueDec,
     gasLimitValue,
-    onSend,
-    sending,
+    onSign,
+    signing,
   ])
 
   return (
@@ -178,10 +178,10 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
       </Group>
       {error ? <StyledErrorBox error={error} /> : null}
       <ConfirmContainer>
-        <Button onClick={doSend}>
-          {sending ? <LoadingIcon /> : 'Confirm and send'}
+        <Button onClick={doSign}>
+          {signing ? <LoadingIcon /> : 'Confirm and sign'}
         </Button>
-        {(sending && wallet.isLedger) ? (
+        {(signing && (wallet instanceof LedgerWallet)) ? (
           <WaitingForLedger>
             <LedgerSvg />
             <span>Please confirm on your Ledger...</span>

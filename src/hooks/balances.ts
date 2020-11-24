@@ -1,7 +1,8 @@
 import { useMemo, useEffect, useState } from 'react'
+import { Wallet } from 'elrondjs'
 
 import { doInterval } from '../utils'
-import { Wallet, Balances } from '../types/all'
+import { Balances } from '../types/all'
 import { ChainContextValue } from '../contexts'
 
 interface UseBalancesResult {

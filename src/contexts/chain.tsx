@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Provider, ContractQueryParams, SignedTransaction, NetworkConfig } from 'erdor'
+import { Provider, ContractQueryParams, SignedTransaction, NetworkConfig } from 'elrondjs'
+import { data } from 'elrond-data'
 
 import { _ } from '../utils'
-import Data, { DEFAULT_PRIMARY_TOKEN } from '../data'
+
+const DEFAULT_PRIMARY_TOKEN = 'egld'
 
 export interface ChainContextValue {
   provider?: Provider,
@@ -24,7 +26,7 @@ export const ChainProvider: React.FunctionComponent<Props> = ({ provider: inputP
       if (inputProvider) {
         try {
           const config = await inputProvider!.getNetworkConfig()
-          const primaryToken = _.get(Data.getNetworkMetadata(config.chainId), 'primaryToken', DEFAULT_PRIMARY_TOKEN)
+          const primaryToken = _.get(data.getNetwork(config.chainId), 'primaryToken', DEFAULT_PRIMARY_TOKEN)
           const provider: Provider = {
             getNetworkConfig: async () => {
               return await inputProvider!.getNetworkConfig()
@@ -41,6 +43,9 @@ export const ChainProvider: React.FunctionComponent<Props> = ({ provider: inputP
             getTransaction: async (txHash: string) => {
               return await inputProvider!.getTransaction(txHash)
             },
+            waitForTransaction: async (txHash: string) => {
+              await inputProvider!.waitForTransaction(txHash)
+            }
           }
 
           setChain({ config, primaryToken, provider })

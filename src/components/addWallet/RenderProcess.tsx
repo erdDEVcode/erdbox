@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import styled from '@emotion/styled'
+import { Wallet } from 'elrondjs'
 
-import { Wallet } from '../../types/all'
 import Button from '../Button'
 import { GlobalConsumer } from '../../contexts'
 import CreatePassphrase from './CreatePassphrase'

@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
+import { LedgerWallet } from 'elrondjs'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import TransportWebUSB from '@ledgerhq/hw-transport-webusb'
 
 import ResolvedWallet from './ResolvedWallet'
-import { getLedgerWallet, isLedgerSupported } from '../../wallet'
-import LoadingIcon from '../LoadingIcon'
 import Button from '../Button'
 import ErrorBox from '../ErrorBox'
 import Icon from '../Icon'
@@ -44,11 +45,6 @@ const StyledLedgerSvg = styled(LedgerSvg)`
   width: 160px;
 `
 
-const ErrorIcon = styled(Icon)`
-  font-size: 5rem;
-  color: ${(p: any) => p.theme.openLedger.error.icon.color};
-`
-
 const InfoIcon = styled(IconWithTooltip)`
   font-size: 1rem;
 `
@@ -67,19 +63,11 @@ interface Props {
 
 const OpenLedger: React.FunctionComponent<Props> = ({ renderSuccess }) => {
   const [wallet, setWallet] = useState<any>()
-  const [supported, setSupported] = useState<boolean | undefined>()
   const [error, setError] = useState()
-
-  useEffect(() => {
-    isLedgerSupported().then(setSupported).catch(err => {
-      console.error(err)
-      setSupported(false)
-    })
-  }, [])
 
   const connect = useCallback(async () => {
     try {
-      const wallet = await getLedgerWallet()
+      const wallet = await LedgerWallet.connect([ TransportU2F, TransportWebUSB ])
       setWallet(wallet)
     } catch (err) {
       console.error(`Error fetching ledger wallet: ${err.message}`)
@@ -90,25 +78,16 @@ const OpenLedger: React.FunctionComponent<Props> = ({ renderSuccess }) => {
 
   return (
     <Container>
-      {undefined === supported ? <LoadingIcon /> : (
-        supported ? (
-          <Content>
-            <StyledLedgerSvg />
-            <p>Connect your Ledger and open the Elrond app <InfoIcon icon='info' tooltip='You may need to enable "Developer Mode" on your Ledger to install the Elrond app.' /></p>
-            {wallet ? null : (
-              <React.Fragment>
-                <ConnectButton onClick={connect}>Connect to wallet</ConnectButton>
-                {error ? <StyledError error={error} /> : null}
-              </React.Fragment>
-            )}
-          </Content>
-        ) : (
-          <Content>
-            <ErrorIcon name='connection-error' />
-            <NotSupported>Sorry, we do not yet support the use of a Ledger wallet with your browser. Please try in Chrome.</NotSupported>
-          </Content>
-        )
-      )}
+      <Content>
+        <StyledLedgerSvg />
+        <p>Connect your Ledger and open the Elrond app <InfoIcon icon='info' tooltip='You may need to enable "Developer Mode" on your Ledger to install the Elrond app.' /></p>
+        {wallet ? null : (
+          <React.Fragment>
+            <ConnectButton onClick={connect}>Connect to wallet</ConnectButton>
+            {error ? <StyledError error={error} /> : null}
+          </React.Fragment>
+        )}
+      </Content>
       <StyledResolvedWallet wallet={wallet} />
       {wallet ? renderSuccess(wallet) : null}
     </Container>

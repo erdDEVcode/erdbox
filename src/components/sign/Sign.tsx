@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import styled from '@emotion/styled'
-import { Transaction, TransactionReceipt } from 'erdor'
+import { SignedTransaction, Transaction, Wallet } from 'elrondjs'
 
-import { Wallet, Balances, Rates } from '../../types/all'
+import { Balances, Rates } from '../../types/all'
 import {
   ChainConsumer,
   ChainContextValue,
@@ -20,8 +20,6 @@ import LoadingIcon from '../LoadingIcon'
 import SlidingPanels from '../SlidingPanels'
 import PreviewForm from './PreviewForm'
 import ConfirmForm from './ConfirmForm'
-import CompletedForm from './CompletedForm'
-import { signTx } from '../../wallet'
 import { DisplayOptions } from './interfaces'
 import ErrorBox from '../ErrorBox'
 
@@ -47,19 +45,19 @@ interface SendInitialValues {
   gasLimitValue ?: string,
 }
 
-interface SendFormProps {
+interface SignFormProps {
   chain: ChainContextValue,
   wallet: Wallet,
   balances: Balances,
   rates: Rates,
   className?: string,
   onError?: (err: any) => {},
-  onComplete?: (receipt: TransactionReceipt) => {},
+  onComplete?: (signedTx: SignedTransaction) => {},
   initialValues?: SendInitialValues,
   displayOptions?: DisplayOptions,
 }
 
-const SendForm: React.FunctionComponent<SendFormProps> = ({
+const SignForm: React.FunctionComponent<SignFormProps> = ({
   className, chain, wallet, balances, rates, initialValues, onComplete, displayOptions,
 }) => {
   const primaryToken = useMemo(() => chain.primaryToken!, [chain])
@@ -135,10 +133,6 @@ const SendForm: React.FunctionComponent<SendFormProps> = ({
     setActivePanel(1)
   }, [])
 
-  const showCompleted = useCallback(() => {
-    setActivePanel(2)
-  }, [])
-
   const resetGasLimit = useCallback(() => {
     setGasLimitValue(initialValues?.gasLimitValue || `${chain.config!.minGasLimit}`)
   }, [initialValues, chain])
@@ -176,28 +170,17 @@ const SendForm: React.FunctionComponent<SendFormProps> = ({
     onLoad()
   }, [onLoad, showPreview])
 
-  const send = useCallback(async (tx: Transaction) => {
+  const sign = useCallback(async (tx: Transaction) => {
     if (wallet) {
-      const signedTransaction = await signTx(wallet, chain.provider!, tx)
-
-      const { hash } = await chain.provider!.sendSignedTransaction(signedTransaction)
-
-      setTxId(hash)
-
-      if (!displayOptions?.skipCompleted) {
-        showCompleted()
-      }
+      const signedTransaction = await wallet.signTransaction(tx, chain.provider!)
 
       if (onComplete) {
-        onComplete({
-          signedTransaction,
-          hash,
-        } as TransactionReceipt)
+        onComplete(signedTransaction)
       }
     } else {
       throw new Error('Wallet not available')
     }
-  }, [wallet, chain.provider, displayOptions, onComplete, showCompleted])
+  }, [wallet, chain.provider, displayOptions, onComplete])
 
   const props = {
     txId,
@@ -229,8 +212,7 @@ const SendForm: React.FunctionComponent<SendFormProps> = ({
     <Container className={className}>
       <SlidingPanels active={activePanel}>
         <PreviewForm props={props} displayOptions={displayOptions} onNext={showConfirmation} />
-        <StyledConfirmForm props={props} displayOptions={displayOptions} onPrevious={showPreview} onSend={send} />
-        <CompletedForm props={props} onReset={onReset} />
+        <StyledConfirmForm props={props} displayOptions={displayOptions} onPrevious={showPreview} onSign={sign} />
       </SlidingPanels>
     </Container>
   )
@@ -239,7 +221,7 @@ const SendForm: React.FunctionComponent<SendFormProps> = ({
 export interface Props {
   isActive: boolean,
   className?: string,
-  onComplete?: (receipt: TransactionReceipt) => {},
+  onComplete?: (signedTx: SignedTransaction) => {},
   initialValues?: SendInitialValues,
   displayOptions?: DisplayOptions,
 }
@@ -256,7 +238,7 @@ const Send: React.FunctionComponent<Props> = ({ isActive, className, onComplete,
           <ChainConsumer>
             {(chain: ChainContextValue) => (
               (chain.provider) ? (
-                <SendForm
+                <SignForm
                   {...props}
                   wallet={props.wallet!}
                   chain={chain}

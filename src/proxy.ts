@@ -1,16 +1,18 @@
 require('./polyfills')
-import { Provider, SignedTransaction, Signer, Transaction, TransactionReceipt, WalletChangeCallbackHandler } from 'erdor'
+import { Provider, SignedTransaction, Signer, Transaction } from 'elrondjs'
 
 import { IpcBase, sendIpcResponse, _ } from './utils'
-import { IPC, ErdConnect, IpcRequest, GetWalletAddressOptions } from './types/all'
+import { IPC, ErdBox, IpcRequest, GetWalletAddressOptions } from './types/all'
 
 const Window: any = (typeof window !== 'undefined') ? window : {}
 
-class ErdConnectImpl extends IpcBase implements ErdConnect {
+/**
+ * @internal
+ */
+class ErdBoxImpl extends IpcBase implements ErdBox {
   protected _iframe: HTMLIFrameElement
   protected _provider?: Provider
   protected _signer: Signer
-  protected _walletChangeListeners: Set<WalletChangeCallbackHandler> = new Set()
 
   constructor(iframe: HTMLIFrameElement) {
     super(iframe.contentWindow!)
@@ -20,13 +22,6 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
       signTransaction: async (tx: Transaction): Promise<SignedTransaction> => {
         return this._callIpc(IPC.SIGN_TRANSACTION, tx)
       },
-      signAndSendTransaction: async (tx: Transaction): Promise<TransactionReceipt> => {
-        if (!this._provider) {
-          throw new Error('Provider not set')
-        }
-
-        return this._enableWidgetUi(() => this._callIpc(IPC.SIGN_AND_SEND_TRANSACTION, tx))
-      },
     }
 
     Window.addEventListener('message', (e: Event) => {
@@ -35,7 +30,7 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
       if (_.get(data, 'id')) {
         switch (data.type) {
           case IPC.WIDGET_READY:
-            Window.dispatchEvent(new Window.Event('elrond-connect-ready'))
+            Window.dispatchEvent(new Window.Event('erdBox-ready'))
             break
           case IPC.RESPONSE:
             this._handleIpcResponse(data)
@@ -95,14 +90,6 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
     return this._signer
   }
 
-  addWalletChangeListener (cb: WalletChangeCallbackHandler) {
-    this._walletChangeListeners.add(cb)
-  }
-
-  removeWalletChangeListener (cb: WalletChangeCallbackHandler) {
-    this._walletChangeListeners.delete(cb)
-  }
-
   getWalletAddress(options?: GetWalletAddressOptions): Promise<string> {
     return this._enableWidgetUi(() => this._callIpc(IPC.GET_WALLET_ADDRESS, options))
   }
@@ -111,14 +98,14 @@ class ErdConnectImpl extends IpcBase implements ErdConnect {
 
 export const initProxy = () => {
   if (Window) {
-    const scriptTag = Window.document.getElementById('elrond-connect')
+    const scriptTag = Window.document.getElementById('erdBox')
     if (!scriptTag) {
       return
     }
     const scriptSrc = scriptTag.getAttribute('src')
 
     const iframeSrc =
-      `<body id='elrond-connect'><script type='text/javascript' src='${scriptSrc}'></script></body>`
+      `<body id='erdBox'><script type='text/javascript' src='${scriptSrc}'></script></body>`
 
     const iframe = Window.document.createElement('iframe');
     iframe.style.position = 'absolute'
@@ -130,7 +117,7 @@ export const initProxy = () => {
     iframe.style.display = 'none'
     Window.document.body.appendChild(iframe)
 
-    Window.elrond = new ErdConnectImpl(iframe)
+    Window.erdBox = new ErdBoxImpl(iframe)
 
     // kick-off!
     const iframeWindow = iframe.contentWindow

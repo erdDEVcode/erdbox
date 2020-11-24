@@ -1,9 +1,9 @@
 {
-  "name": "elrond-connect",
+  "name": "erdBox",
   "version": "1.1.0",
   "description": "Drop-in widget for connecting Dapps to Elrond and interacting with user wallets",
-  "main": "dist/elrond-connect.js",
-  "types": "dist/elrond-connect.d.ts",
+  "main": "dist/erdBox.js",
+  "types": "dist/erdBox.d.ts",
   "author": "erdDEV team (https://erd.dev)",
   "homepage": "https://connect.erd.dev",
   "license": "AGPLv3",
@@ -44,7 +44,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "release": "semantic-release",
-    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/elrond-connect.d.ts",
+    "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/erdBox.d.ts",
     "dev": "npm run types && webpack serve",
     "build": "npm run types && NODE_ENV=production webpack"
   },
@@ -69,9 +69,10 @@
     "buffer": "^6.0.1",
     "crypto-browserify": "^3.12.0",
     "decimal.js": "^10.2.1",
+    "elrond-data": "^1.2.0",
+    "elrondjs": "^1.4.0",
     "emotion-styled-utils": "^2.3.2",
     "emotion-theming": "^10.0.27",
-    "erdor": "^1.1.2",
     "framer-motion": "^2.9.4",
     "lodash.get": "^4.4.2",
     "react": "^17.0.1",

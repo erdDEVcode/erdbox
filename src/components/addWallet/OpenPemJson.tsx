@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
+import { BasicWallet } from 'elrondjs'
 
 import ResolvedWallet from './ResolvedWallet'
 import TextArea from '../TextArea'
 import TextInput from '../TextInput'
 import FileInput from '../FileInput'
-import { deriveWalletFromJsonKeyFileString, deriveWalletFromPemFileString } from '../../wallet'
 import { isJson } from '../../utils'
 
 const Container = styled.div`
@@ -60,9 +60,9 @@ const OpenPemJson: React.FunctionComponent<Props> = ({ renderSuccess }) => {
 
         try {
           if (isJson(value)) {
-            wallet = deriveWalletFromJsonKeyFileString(value, password)
+            wallet = BasicWallet.fromJsonKeyFileString(value, password)
           } else {
-            wallet = deriveWalletFromPemFileString(value)
+            wallet = BasicWallet.fromPemFileString(value)
           }
         } catch (err) {
           // not valid

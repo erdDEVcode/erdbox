@@ -1,4 +1,4 @@
-import { PromiseResolver } from 'erdor'
+import { PromiseResolver } from 'elrond-data'
 import { IPC, IpcRequest, IpcResponse } from "../types/all"
 
 export const sendIpcResponse = (w: Window, res: IpcResponse) => {

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
+import { Wallet } from 'elrondjs'
 
-import { Wallet } from '../types/all'
 
 interface UseWalletsResult {
   wallets: Wallet[],

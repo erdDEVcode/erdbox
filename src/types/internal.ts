@@ -1,13 +1,7 @@
-import { Balance, Rate } from 'erdor'
+import { Balance, Rate } from 'elrond-data'
 
 export type Balances = Record<string, Balance>
 export type Rates = Record<string, Rate>
-
-export interface Wallet {
-  address: () => string,
-  sign: Function,
-  isLedger?: boolean,
-}
 
 export enum IPC {
   WIDGET_READY = 1,

@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
+import { data } from 'elrond-data'
 
-import Data from '../../data'
 import {
   AssetValue,
   AssetValueNumberStyle,
@@ -290,7 +290,7 @@ const PreviewForm: React.FunctionComponent<PreviewProps> = ({
           <Col>
             <CryptoLine>
               <StyledTextInput value={cryptoValue} onChange={updateCryptoValue} type='number' />
-              <span>{Data.getToken(primaryToken).symbol}</span>
+              <span>{data.getToken(primaryToken).symbol}</span>
             </CryptoLine>
             {rate ? (
               <FiatLine>

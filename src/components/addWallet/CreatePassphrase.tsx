@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
+import { BasicWallet, generateMnemonic } from 'elrondjs'
 
 import ResolvedWallet from './ResolvedWallet'
 import Button from '../Button'
 import IconButton from '../IconButton'
 import TextInput from '../TextInput'
-import { generateMnemonic, deriveWalletFromMnemonic } from '../../wallet'
 import { numToDateStr } from '../../utils'
 
 const Container = styled.div`
@@ -68,15 +68,16 @@ interface Props {
   renderSuccess: Function
 }
 
+const doGenerateMnemonic = () => generateMnemonic().split(" ")
 
 const CreatePassphrase: React.FunctionComponent<Props> = ({ renderSuccess }) => {
   const [words, setWords] = useState<string[]>([])
   const [testMode, setTestMode] = useState<number[]>([])
   const [wallet, setWallet] = useState<any>()
-  const [mnemonic, setMnemonic] = useState<string[]>(generateMnemonic())
+  const [mnemonic, setMnemonic] = useState<string[]>(doGenerateMnemonic())
 
   const generate = useCallback(() => {
-    setMnemonic(generateMnemonic())
+    setMnemonic(doGenerateMnemonic())
   }, [])
 
   const testUser = useCallback(() => {
@@ -110,7 +111,7 @@ const CreatePassphrase: React.FunctionComponent<Props> = ({ renderSuccess }) => 
         }
 
         if (allOk) {
-          const account = deriveWalletFromMnemonic(mnemonic.join(' '))
+          const account = BasicWallet.fromMnemonic(mnemonic.join(' '))
           if (account) {
             setWallet(account)
             return

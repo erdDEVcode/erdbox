@@ -1,5 +1,5 @@
 require('./polyfills')
-import { Address, ContractQueryParams, ContractQueryResult, Provider, NetworkConfig, SignedTransaction, Transaction, TransactionOnChain, TransactionReceipt } from 'erdor'
+import { Address, ContractQueryParams, ContractQueryResult, Provider, NetworkConfig, SignedTransaction, Transaction, TransactionOnChain, TransactionReceipt, TransactionTracker } from 'elrondjs'
 import { sendIpcResponse, _ } from './utils'
 import { onceAppReady } from './App'
 import { GetWalletAddressOptions, IPC, IpcResponse } from './types/all'
@@ -24,13 +24,16 @@ export const initWidget = () => {
         return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'getAddress', params: [ address ] })
       }
       queryContract (params: ContractQueryParams): Promise<ContractQueryResult> {
-        return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'queryContract', params: [params] })
+        throw new Error('Security check - method not allowed from within widget: queryContract')
       }
       sendSignedTransaction (signedTx: SignedTransaction): Promise<TransactionReceipt> {
-        return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'sendSignedTransaction', params: [signedTx] })
+        throw new Error('Security check - method not allowed from within widget: sendSignedTransaction')
       }
       getTransaction (txHash: string): Promise<TransactionOnChain> {
-        return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'getTransaction', params: [txHash] })
+        throw new Error('Security check - method not allowed from within widget: getTransaction')
+      }
+      waitForTransaction (txHash: string): Promise<void> {
+        throw new Error('Security check - method not allowed from within widget: waitForTransaction')
       }
     }
 

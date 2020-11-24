@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
+import { BasicWallet } from 'elrondjs'
 
 import ResolvedWallet from './ResolvedWallet'
 import TextArea from '../TextArea'
-import { deriveWalletFromMnemonic } from '../../wallet'
 
 const Container = styled.div`
   ${flex({ direction: 'column', justify: 'center', align: 'center' })}
@@ -31,7 +31,7 @@ const OpenPassphrase: React.FunctionComponent<Props> = ({ renderSuccess }) => {
   useEffect(() => {
     const checkTimer = setTimeout(() => {
       if (value) {
-        const wallet = deriveWalletFromMnemonic(value)
+        const wallet = BasicWallet.fromMnemonic(value)
         if (wallet) {
           setWallet(wallet)
           return

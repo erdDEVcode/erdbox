@@ -1,8 +1,8 @@
+# erdbox
+
 [![NPM module](https://badge.fury.io/js/erdbox.svg)](https://badge.fury.io/js/erdbox)
 [![Join the community](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg?color=0088cc)](https://t.me/erdDEV)
 [![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/erd_dev)
-
-# erdbox
 
 Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's wallets.
 

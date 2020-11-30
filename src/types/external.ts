@@ -5,7 +5,9 @@ import { Provider, Signer } from 'elrondjs'
  */
 export interface GetWalletAddressOptions {
   /**
-   * If `true` then user must load a valid wallet if not already done so.
+   * If `true` then the user must create/load a valid wallet in order to close the wallet-loading modal.
+   * 
+   * If not set or `false` then the user can close the wallet-loading modal and cancel the process without creating/loading a wallet.
    */
   mustLoadWallet?: boolean
 }
@@ -25,6 +27,8 @@ export interface ErdBox {
   getSigner: () => Signer,
   /**
    * Get the current wallet address.
+   * 
+   * If no wallet is currently loaded then the `options.mustLoadWallet` option can be set to force them to create/load one.
    */
   getWalletAddress: (options?: GetWalletAddressOptions) => Promise<string>,
 }

@@ -15,7 +15,7 @@ Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's w
 * Easy and simple API
 * Works with any frontend framework and/or vanilla JS
 * Typescript definitions.
-* Full documentation coming soon!
+* Full [documentation]([https://erdbox.erd.dev](https://erdbox.erd.dev)).
 
 ## Usage
 
@@ -33,6 +33,8 @@ Include the following `script` tag anywhere within your HTML:
 </script>
 ```
 
+**Note: replace `1.5.1` in the above code with the latest version of erdbox. This can always be found by visiting the erdbox package page at [https://www.npmjs.com/package/erdbox](https://www.npmjs.com/package/erdbox)**
+
 Then in your Javascript code:
 
 ```js
@@ -47,11 +49,7 @@ window.addEventListener('erdbox:ready', async () => {
 }, { once: true });
 ```
 
-Full documentation coming soon!
-
-## How it works
-
-_Coming soon!_
+Full documentation is available at [https://erdbox.erd.dev](https://erdbox.erd.dev).
 
 ## Contributors guide
 

@@ -57,6 +57,18 @@ window.addEventListener('erdbox:ready', async () => {
 })
 ```
 
+## How it works
+
+When you add the initial `script` tag to your page to load the `erdbox.js` library here is what happens:
+
+1. The library detects that it's running in the parent page, so it creates an `iframe` in the parent page and loads the `erdbox` library code (i.e. itself) within the `iframe`.
+1. _The parent page library instance is now known as the **proxy**._
+1. The library instance loaded within the newly created `iframe` and detects that it is running within the `iframe`, so it initializes the widget UI.
+1. _The `iframe` library instance is now known as the **widget**._
+1. The **widget** sends a [message](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to the **proxy** once it has initialized fully.
+1. The **proxy** emits the `erdbox:ready` event on the `window` object so that the parent page can detect and respond to this. The **proxy** also creates the `window.erdbox` object.
+1. The parent page can now call available methods on `window.erdbox` and the **proxy** will translate and forward these calls onto the **widget**.
+
 ## Supported wallets
 
 erdbox supports loading the following wallets:
@@ -71,7 +83,7 @@ A user can also create a new menmonic-based wallet on-the-fly with erdbox.
 
 Once the library is loaded the `erdbox:ready` event will be emitted. Furthermore, the `window.erdbox` object will be available - this is the sole interface through which interaction with erdbox is possible. This object is an instance of `ErdBox` (see [API docs](/docs/api)) and provides the following methods:
 
-* `setProvider` - set an [elrondjs](https://elrondjs.erd.dev) `Provider` instance to use for accessing chain information. The signing mechanism uses this to lookup the latest account nonce, etc.
+* `setProvider` - set an [elrondjs](https://elrondjs.erd.dev) `Provider` instance to use for accessing chain information. The signing mechanism uses this to lookup the latest account nonce, etc. This method **must** be called prior to any transaction signing since the widget needs to be able to query the Elrond network in order to sign transaction.
 * `getProvider` - get the elrondjs `Provider` instance that is currently set.
 * `getSigner` - get an elrondjs `Signer` instance to use for signing transactions. Using this instance to sign a transaction will automatically invoke the erdbox signing interface to show.
 * `getWalletAddress` - get the user's wallet address. If no wallet is set then the user will be prompted with an interface to create/load a wallet.
@@ -120,6 +132,3 @@ The erdbox UI shows as a modal that overlays everything else on the page. The mo
 
 This makes integrating erdbox into your existing Dapp very easy and secure.
 
-## Architectureal overview
-
-_Coming soon_

@@ -10,7 +10,7 @@
 
 **Please note, erdbox is designed to work hand-in-hand with the [elrondjs](https://elrondjs.erd.dev) SDK. Alternative Javascript SDKs for Elrond are not currently supported.**
 
-## Getting started
+## Getting started
 
 Add a `script` tag to asynchronously load the erdbox library:
 

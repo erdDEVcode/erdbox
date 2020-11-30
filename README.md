@@ -53,9 +53,9 @@ Full documentation coming soon!
 
 _Coming soon!_
 
-## Development
+## Contributors guide
 
-_Note: These instructions are for developers who wish to work on Vilya itself_.
+_Note: These instructions are for developers who wish to work on erdbox itself_.
 
 Start the dev server
 

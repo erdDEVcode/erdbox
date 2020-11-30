@@ -35,6 +35,7 @@
     "react-svg-loader": "^3.0.3",
     "semantic-release": "^17.2.2",
     "ts-loader": "^8.0.10",
+    "typedoc": "^0.19.2",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
     "webpack-bundle-analyzer": "^4.1.0",
@@ -46,6 +47,7 @@
     "release": "semantic-release",
     "types": "tsc src/types/external.ts --declaration --emitDeclarationOnly --declarationDir dist && mv dist/external.d.ts dist/erdbox.d.ts",
     "dev": "npm run types && webpack serve",
+    "build-docs": "rm -rf ./docs-api && typedoc",
     "build": "npm run types && NODE_ENV=production webpack"
   },
   "husky": {

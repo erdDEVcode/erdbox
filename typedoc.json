@@ -1,0 +1,10 @@
+{
+  "inputFiles": [
+    "./src/types/external.ts"
+  ],
+  "excludeProtected": true,
+  "stripInternal": true,
+  "theme": "minimal",
+  "mode": "file",
+  "out": "docs-api"
+}

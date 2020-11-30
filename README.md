@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="250" height="250" src="https://raw.githubusercontent.com/erdDEVcode/erdbox/master/assets/logo.png">
+</p>
+
 # erdbox
 
 [![NPM module](https://badge.fury.io/js/erdbox.svg)](https://badge.fury.io/js/erdbox)

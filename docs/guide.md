@@ -108,7 +108,7 @@ window.addEventListener('erdbox:ready', async () => {
 The `invoke()` call above will create and sign a transaction to send to the network. The signing part will trigger the erdbox signing 
 modal to show, which looks something like this:
 
-{img}
+![Signing](https://raw.githubusercontent.com/erdDEVcode/erdbox/master/docs/signTransaction.png "Signing a transaction")
 
 If the user closes this modal without completing the process then the transaction is autoamtically cancelled and the `invoke()` call will 
 throw an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error). If the user completes the signing process the modal will auto-close and the signed transaction will be broadcast to the 
@@ -120,6 +120,6 @@ The erdbox UI shows as a modal that overlays everything else on the page. The mo
 
 This makes integrating erdbox into your existing Dapp very easy and secure.
 
-## Architecture
+## Architectureal overview
 
-{how_it_works}
+_Coming soon_

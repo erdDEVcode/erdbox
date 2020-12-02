@@ -10,6 +10,8 @@
 
 Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's wallets.
 
+Live demo: [Sting wallet](https://sting.erd.dev)
+
 * Supports all wallet types: Mnemonic/seedphrase, JSON keyfile, PEM file, Ledger hardware
 * Full transaction signing (including smart contract interactions)
 * Easy and simple API

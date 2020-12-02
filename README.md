@@ -17,7 +17,7 @@ Live demo: [Sting wallet](https://sting.erd.dev)
 * Easy and simple API
 * Works with any frontend framework and/or vanilla JS
 * Typescript definitions.
-* Full [documentation]([https://erdbox.erd.dev](https://erdbox.erd.dev)).
+* Full [documentation](https://erdbox.erd.dev).
 
 ## Usage
 

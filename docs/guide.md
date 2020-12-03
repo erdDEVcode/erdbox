@@ -31,7 +31,7 @@ _Note: replace `1.5.1` in the above code with the latest version of erdbox. This
 In your Javascript code enter the following code to enable [claiming rewards](https://elrond.com/blog/egold-delegation-waiting-list-guide/) from the Mainnet delegation contract:
 
 ```js
-import { Contract, ProxyProvider, ElrondWallet } from 'elrondjs'
+import { Contract, ProxyProvider, BasicWallet } from 'elrondjs'
 
 window.addEventListener('erdbox:ready', async () => {
   // create network connection
@@ -91,7 +91,7 @@ Once the library is loaded the `erdbox:ready` event will be emitted. Furthermore
 Let's reconsider the code example from earlier for claiming rewards from the Mainnet delegation contract:
 
 ```js
-import { Contract, ProxyProvider, ElrondWallet } from 'elrondjs'
+import { Contract, ProxyProvider, BasicWallet } from 'elrondjs'
 
 window.addEventListener('erdbox:ready', async () => {
   // create network connection

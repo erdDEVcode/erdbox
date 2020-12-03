@@ -46,6 +46,7 @@ window.addEventListener('erdbox:ready', async () => {
     const c = await Contract.at('erd1qqqqqqqqqqqqqpgqxwakt2g7u9atsnr03gqcgmhcv38pt7mkd94q6shuwt', {
       provider,
       signer: window.erdbox.getSigner(),
+      sender: address,
     })
 
     // make the claim
@@ -106,6 +107,7 @@ window.addEventListener('erdbox:ready', async () => {
     const c = await Contract.at('erd1qqqqqqqqqqqqqpgqxwakt2g7u9atsnr03gqcgmhcv38pt7mkd94q6shuwt', {
       provider,
       signer: window.erdbox.getSigner(),
+      sender: address,
     })
 
     // make the claim

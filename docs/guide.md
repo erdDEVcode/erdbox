@@ -80,7 +80,7 @@ erdbox supports loading the following wallets:
 
 A user can also create a new menmonic-based wallet on-the-fly with erdbox. 
 
-## window.erd
+## window.erdbox
 
 Once the library is loaded the `erdbox:ready` event will be emitted. Furthermore, the `window.erdbox` object will be available - this is the sole interface through which interaction with erdbox is possible. This object is an instance of `ErdBox` (see [API docs](/docs/api)) and provides the following methods:
 

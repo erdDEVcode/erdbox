@@ -39,7 +39,7 @@ window.addEventListener('erdbox:ready', async () => {
   window.erdbox.setProvider(provider)
 
   // load wallet
-  const address = window.erdbox.getWalletAddress()
+  const address = await window.erdbox.getWalletAddress()
 
   if (address) {
     // create interface to delegation contract
@@ -100,7 +100,7 @@ window.addEventListener('erdbox:ready', async () => {
   window.erdbox.setProvider(provider)
 
   // load wallet
-  const address = window.erdbox.getWalletAddress()
+  const address = await window.erdbox.getWalletAddress()
 
   if (address) {
     // create interface to delegation contract

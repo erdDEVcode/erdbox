@@ -1,6 +1,6 @@
 {
   "name": "erdbox",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Drop-in widget for connecting Elrond dapps to user wallets",
   "main": "dist/erdbox.js",
   "types": "dist/erdbox.d.ts",

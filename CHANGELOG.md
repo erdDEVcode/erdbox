@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/erdDEVcode/connect/compare/v1.6.3...v1.7.0) (2020-12-17)
+
+
+### Features
+
+* better use of ledger in tabs ([54b0622](https://github.com/erdDEVcode/connect/commit/54b0622d28f386a24a073cec52c03696f8db3804))
+
 ## [1.6.3](https://github.com/erdDEVcode/connect/compare/v1.6.2...v1.6.3) (2020-12-15)
 
 ## [1.6.2](https://github.com/erdDEVcode/connect/compare/v1.6.1...v1.6.2) (2020-12-07)

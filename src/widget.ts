@@ -55,9 +55,14 @@ export const initWidget = () => {
               const networkConfig: NetworkConfig = data
               ipcProvider = new IpcProvider(networkConfig)
               App.setProvider(ipcProvider)
+              ret = true
               break
             case IPC.GET_WALLET_ADDRESS:
               ret = await App.getWalletAddress(data as GetWalletAddressOptions)
+              break
+            case IPC.CLOSE_WALLET:
+              await App.closeWallet()
+              ret = true
               break
             case IPC.SIGN_TRANSACTION:
               ret = await App.signTransaction(data as Transaction)

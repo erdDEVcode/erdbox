@@ -78,6 +78,18 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
     }
   }
 
+  _loadAddressFromCache (): string | null {
+    return window.localStorage.getItem('erdbox_wallet_address')    
+  }
+
+  _saveAddressToCache (address: string | null) {
+    if (!address) {
+      window.localStorage.removeItem('erdbox_wallet_address')
+    } else {
+      window.localStorage.setItem('erdbox_wallet_address', address)    
+    }
+  }
+
   async setProvider (provider: Provider) {
     this._provider = provider
     const networkConfig = await provider.getNetworkConfig()
@@ -92,8 +104,12 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
     return this._signer
   }
 
-  getWalletAddress(options?: GetWalletAddressOptions): Promise<string> {
-    return this._enableWidgetUi(() => this._callIpc(IPC.GET_WALLET_ADDRESS, options))
+  async getWalletAddress(options?: GetWalletAddressOptions): Promise<string> {
+    return await this._enableWidgetUi(() => this._callIpc(IPC.GET_WALLET_ADDRESS, options))
+  }
+
+  async closeWallet(): Promise<void> {
+    await this._callIpc(IPC.CLOSE_WALLET)
   }
 }
 

@@ -112,7 +112,14 @@ class App extends React.Component {
     }
   }
 
+  closeWallet = async () => {
+    this.globalProvider.closeActiveWallet()
+  }
+
   signTransaction = async (tx: Transaction) => {
+    // load wallet first if not already done so!
+    await this.getWalletAddress({ mustLoadWallet: true })
+
     if (this.signer) {
       return this.signer.sign(tx)
     }

@@ -44,6 +44,12 @@ export class GlobalProvider extends React.Component {
     return this.state.activeWallet
   }
 
+  closeActiveWallet = () => {
+    if (this.state.activeWallet) {
+      this._removeWallet(this.state.activeWallet)
+    }
+  }
+
   _setActiveWallet = (w: Wallet) => {
     this.setState({
       activeWallet: w,

@@ -31,5 +31,11 @@ export interface ErdBox {
    * If no wallet is currently loaded then the `options.mustLoadWallet` option can be set to force them to create/load one.
    */
   getWalletAddress: (options?: GetWalletAddressOptions) => Promise<string>,
+  /**
+   * Close the current wallet.
+   * 
+   * Once called the user's wallet will have to be loaded again via `getWalletAddress()`.
+   */
+  closeWallet: () => Promise<void>,
 }
 

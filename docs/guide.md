@@ -21,12 +21,12 @@ Add a `script` tag to asynchronously load the erdbox library:
   g.type = 'text/javascript';
   g.async = true;
   g.defer = true;
-  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.7.0/dist/erdbox.js';
+  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.8.0/dist/erdbox.js';
   window.document.body.appendChild(g);
 </script>
 ```
 
-_Note: replace `1.7.0` in the above code with the latest version of erdbox. This can always be found by visiting the erdbox package page at [https://www.npmjs.com/package/erdbox](https://www.npmjs.com/package/erdbox)_
+_Note: replace `1.8.0` in the above code with the latest version of erdbox. This can always be found by visiting the erdbox package page at [https://www.npmjs.com/package/erdbox](https://www.npmjs.com/package/erdbox)_
 
 In your Javascript code enter the following code to enable [claiming rewards](https://elrond.com/blog/egold-delegation-waiting-list-guide/) from the Mainnet delegation contract:
 
@@ -88,6 +88,7 @@ Once the library is loaded the `erdbox:ready` event will be emitted. Furthermore
 * `getProvider` - get the elrondjs `Provider` instance that is currently set.
 * `getSigner` - get an elrondjs `Signer` instance to use for signing transactions. Using this instance to sign a transaction will automatically invoke the erdbox signing interface to show.
 * `getWalletAddress` - get the user's wallet address. If no wallet is set then the user will be prompted with an interface to create/load a wallet.
+* `closeWallet` - close the currently loaded wallet, to allow the user to load a different wallet via `getWalletAddress()`.
 
 Let's reconsider the code example from earlier for claiming rewards from the Mainnet delegation contract:
 

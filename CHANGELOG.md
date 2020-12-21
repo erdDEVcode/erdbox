@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/erdDEVcode/connect/compare/v1.7.0...v1.8.0) (2020-12-21)
+
+
+### Features
+
+* allow for user to change wallet ([9e53174](https://github.com/erdDEVcode/connect/commit/9e531742d2e9d245c7e8fa362c9548e6a1541d6c))
+
 # [1.7.0](https://github.com/erdDEVcode/connect/compare/v1.6.3...v1.7.0) (2020-12-17)
 
 

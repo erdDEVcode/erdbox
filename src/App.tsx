@@ -118,7 +118,11 @@ class App extends React.Component {
 
   signTransaction = async (tx: Transaction) => {
     // load wallet first if not already done so!
-    await this.getWalletAddress({ mustLoadWallet: true })
+    const address = await this.getWalletAddress()
+
+    if (!address) {
+      throw new Error('Wallet not loaded')
+    }
 
     if (this.signer) {
       return this.signer.sign(tx)

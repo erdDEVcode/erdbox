@@ -120,14 +120,14 @@ window.addEventListener('erdbox:ready', async () => {
 })
 ```
 
-The `invoke()` call above will create and sign a transaction to send to the network. The signing part will trigger the erdbox signing 
-modal to show, which looks something like this:
+The `invoke()` call above will create and sign a transaction to send to the network. The signing part will trigger the erdbox signing modal to show, which looks something like this:
 
 ![Signing](https://raw.githubusercontent.com/erdDEVcode/erdbox/master/docs/signTransaction.png "Signing a transaction")
 
-If the user closes this modal without completing the process then the transaction is autoamtically cancelled and the `invoke()` call will 
-throw an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error). If the user completes the signing process the modal will auto-close and the signed transaction will be broadcast to the 
-network.
+If the user closes this modal without completing the process then the transaction is autoamtically cancelled and the `invoke()` call will throw an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error). If the user completes the signing process the modal will auto-close and the signed transaction will be broadcast to the network.
+
+_Note: If you try to sign a transaction without having first loaded the user's wallet then the wallet loading 
+modal will automatically get shown first_.
 
 ## Frontend integration
 

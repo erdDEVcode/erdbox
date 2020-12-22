@@ -21,12 +21,12 @@ Add a `script` tag to asynchronously load the erdbox library:
   g.type = 'text/javascript';
   g.async = true;
   g.defer = true;
-  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.9.0/dist/erdbox.js';
+  g.src = 'https://cdn.jsdelivr.net/npm/erdbox@1.9.1/dist/erdbox.js';
   window.document.body.appendChild(g);
 </script>
 ```
 
-_Note: replace `1.9.0` in the above code with the latest version of erdbox. This can always be found by visiting the erdbox package page at [https://www.npmjs.com/package/erdbox](https://www.npmjs.com/package/erdbox)_
+_Note: replace `1.9.1` in the above code with the latest version of erdbox. This can always be found by visiting the erdbox package page at [https://www.npmjs.com/package/erdbox](https://www.npmjs.com/package/erdbox)_
 
 In your Javascript code enter the following code to enable [claiming rewards](https://elrond.com/blog/egold-delegation-waiting-list-guide/) from the Mainnet delegation contract:
 

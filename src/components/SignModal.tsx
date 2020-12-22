@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import { SignedTransaction, Transaction } from 'elrondjs'
+import { LedgerWallet, SignedTransaction, Transaction, Wallet } from 'elrondjs'
 
 import { _ } from '../utils'
 import Modal from './Modal'
 import { DisplayOptions } from './sign/interfaces'
 import Sign from './sign/Sign'
+import { GlobalConsumer } from '../contexts'
 
 interface Props {
 }
 
 interface SignModalState {
-  onRequestClose: () => {},
+  onRequestClose: (activeWallet?: Wallet) => {},
   onComplete: (signedTx: SignedTransaction) => {},
   initialValues: object,
 }
@@ -33,14 +34,18 @@ export default class SignModal extends Component<Props> implements SignModalInte
     const { onRequestClose, ...otherProps } = this.state.showModal || {}
 
     return (
-      <Modal
-        isOpen={isActive}
-        width='700px'
-        height='640px'
-        onRequestClose={onRequestClose}
-      >
-        <Sign isActive={isActive} {...otherProps} />
-      </Modal>
+      <GlobalConsumer>
+        {globalCtx => (
+          <Modal
+            isOpen={isActive}
+            width='700px'
+            height='640px'
+            onRequestClose={() => onRequestClose ? onRequestClose(globalCtx.activeWallet!) : null}
+          >
+            <Sign isActive={isActive} {...otherProps} />
+          </Modal>
+        )}
+      </GlobalConsumer>
     )
   }
 
@@ -48,7 +53,14 @@ export default class SignModal extends Component<Props> implements SignModalInte
     return new Promise((resolve, reject) => {
       this.setState({
         showModal: {
-          onRequestClose: () => {
+          onRequestClose: async (activeWallet?: Wallet) => {
+            if (activeWallet && activeWallet instanceof LedgerWallet) {
+              // if there are pending Legder actions then user must accept/reject before we hide modal
+              if ((activeWallet as LedgerWallet).hasPendingActions()) {
+                return
+              }
+            }
+
             this.setState({ showModal: null })
             reject(new Error('User cancelled the process'))
           },

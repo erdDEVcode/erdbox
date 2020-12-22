@@ -56,6 +56,8 @@ export default class SignModal extends Component<Props> implements SignModalInte
           onRequestClose: async (activeWallet?: Wallet) => {
             if (activeWallet && activeWallet instanceof LedgerWallet) {
               // if there are pending Legder actions then user must accept/reject before we hide modal
+              // otherwise the Legder transport will will remain open, preventing the user from using
+              // the Ledger in another app/tab.
               if ((activeWallet as LedgerWallet).hasPendingActions()) {
                 return
               }

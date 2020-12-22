@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/erdDEVcode/connect/compare/v1.9.0...v1.9.1) (2020-12-22)
+
+
+### Bug Fixes
+
+* dont close modal if user hasn't accepted/rejected on ledger ([f08f5af](https://github.com/erdDEVcode/connect/commit/f08f5af938a727a3e242031d94253564bfd8534a))
+
 # [1.9.0](https://github.com/erdDEVcode/connect/compare/v1.8.0...v1.9.0) (2020-12-22)
 
 # [1.8.0](https://github.com/erdDEVcode/connect/compare/v1.7.0...v1.8.0) (2020-12-21)

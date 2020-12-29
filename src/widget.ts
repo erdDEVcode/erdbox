@@ -32,7 +32,7 @@ export const initWidget = () => {
       getTransaction (txHash: string): Promise<TransactionOnChain> {
         throw new Error('Security check - method not allowed from within widget: getTransaction')
       }
-      waitForTransaction (txHash: string): Promise<void> {
+      waitForTransaction(txHash: string): Promise<TransactionOnChain> {
         throw new Error('Security check - method not allowed from within widget: waitForTransaction')
       }
     }

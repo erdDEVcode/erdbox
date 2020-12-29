@@ -44,7 +44,7 @@ export const ChainProvider: React.FunctionComponent<Props> = ({ provider: inputP
               return await inputProvider!.getTransaction(txHash)
             },
             waitForTransaction: async (txHash: string) => {
-              await inputProvider!.waitForTransaction(txHash)
+              return await inputProvider!.waitForTransaction(txHash)
             }
           }
 

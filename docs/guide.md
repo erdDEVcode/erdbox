@@ -135,3 +135,18 @@ The erdbox UI shows as a modal that overlays everything else on the page. The mo
 
 This makes integrating erdbox into your existing Dapp very easy and secure.
 
+## Self-hosting and IFPS
+
+One of the benefits of using erdbox is that you can, if you want, host it yourself instead of loading it from the CDN. This then also means that you can host your entire Dapp frontend on [IPFS](https://ipfs.io/), providing for a truly decentralized and uncensorable dapp. You would simply need to update the erdbox URL inside the `script` tag to point to your hosted/IPFS version:
+
+```html
+<script type="text/javascript">
+  const g = window.document.createElement('script');
+  g.id = 'erdboxScript';
+  g.type = 'text/javascript';
+  g.async = true;
+  g.defer = true;
+  g.src = 'https://mydomain_or_ipfs_root/erdbox.js';
+  window.document.body.appendChild(g);
+</script>
+```

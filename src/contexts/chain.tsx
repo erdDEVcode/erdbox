@@ -34,6 +34,9 @@ export const ChainProvider: React.FunctionComponent<Props> = ({ provider: inputP
             getAddress: async (address: string) => {
               return await inputProvider!.getAddress(address)
             },
+            getESDTData: async (address: string, token: string) => {
+              return await inputProvider!.getESDTData(address, token)
+            },
             queryContract: async (params: ContractQueryParams) => {
               return await inputProvider!.queryContract(params)
             },

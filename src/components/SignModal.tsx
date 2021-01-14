@@ -73,7 +73,7 @@ export default class SignModal extends Component<Props> implements SignModalInte
           initialValues: {
             toValue: tx.receiver,
             dataValue: tx.data,
-            cryptoValue: tx.value,
+            cryptoValue: tx.value.toMinScale().toString(),
             gasLimitValue: tx.gasLimit,
             gasPriceValue: tx.gasPrice,
           },

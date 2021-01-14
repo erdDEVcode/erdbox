@@ -1,8 +1,59 @@
 import { PromiseResolver } from 'elrond-data'
+import { BigVal, isBigVal } from 'elrondjs'
 import { IPC, IpcRequest, IpcResponse, IpcTarget } from "../types/all"
+import { _ } from './lodash'
+
+
+const serializeData = (data: Record<string, any>): string => {
+  if (!data) {
+    return data
+  }
+
+  const san = Object.keys(data).reduce((m, k) => {
+    if (isBigVal(data[k])) {
+      m[k] = `BigVal:${data[k].toMinScale().toString()}`
+    } else {
+      m[k] = data[k]
+    }
+    return m
+  }, {} as Record<string, any>)
+
+  return JSON.stringify(san)
+}
+
+const unserializeData = (data: string): any => {
+  if (!data) {
+    return data
+  }
+
+  const parsed = JSON.parse(data)
+
+  const ret = Object.keys(parsed).reduce((m, k: string) => {
+    if (typeof parsed[k] === 'string' && parsed[k].startsWith('BigVal:')) {
+      m[k] = new BigVal(parsed[k].substr(7))
+    } else {
+      m[k] = parsed[k]
+    }
+    return m
+  }, {} as Record<string, any>)
+
+  return ret
+}
+
+export const extractEventData = (e: any): any => {
+  const eventData = _.get(e, 'data', {})
+
+  // if it's one of our requests (and not system-generated)
+  if (eventData && eventData.id && eventData.type && eventData.data) {
+    eventData.data = unserializeData(eventData.data)
+  }
+
+  return eventData
+}
+
 
 export const sendIpcResponse = (w: Window, res: IpcResponse) => {
-  w.postMessage({ target: res.target, id: res.id, type: IPC.RESPONSE, data: res.data, error: res.error }, '*')
+  w.postMessage({ target: res.target, id: res.id, type: IPC.RESPONSE, data: serializeData(res.data), error: res.error }, '*')
 }
 
 export class IpcBase {
@@ -26,7 +77,7 @@ export class IpcBase {
         target: this._ipcTarget,
         id,
         type,
-        data,
+        data: serializeData(data),
       }
 
       this._ipcTargetWindow.postMessage(req, '*')

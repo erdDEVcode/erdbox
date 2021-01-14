@@ -1,7 +1,7 @@
 require('./polyfills')
 import { Provider, SignedTransaction, Signer, Transaction } from 'elrondjs'
 
-import { IpcBase, sendIpcResponse, _ } from './utils'
+import { extractEventData, IpcBase, sendIpcResponse, _ } from './utils'
 import { IPC, ErdBox, IpcRequest, GetWalletAddressOptions, IpcTarget } from './types/all'
 
 const Window: any = (typeof window !== 'undefined') ? window : {}
@@ -25,9 +25,9 @@ class ErdBoxImpl extends IpcBase implements ErdBox {
     }
 
     Window.addEventListener('message', (e: Event) => {
-      const eventData = _.get(e, 'data', {})
+      const eventData = extractEventData(e)
 
-      const { target, id, type, data } = eventData as IpcRequest
+      const { target, id, type } = eventData as IpcRequest
 
       if (id && type && target === IpcTarget.PROXY) {
         switch (type) {

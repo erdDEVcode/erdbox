@@ -1,6 +1,6 @@
 require('./polyfills')
-import { Address, ContractQueryParams, ContractQueryResult, Provider, NetworkConfig, SignedTransaction, Transaction, TransactionOnChain, TransactionReceipt, TransactionTracker } from 'elrondjs'
-import { sendIpcResponse, _ } from './utils'
+import { Address, ContractQueryParams, ContractQueryResult, Provider, NetworkConfig, SignedTransaction, Transaction, TransactionOnChain, TransactionReceipt, TokenData, BigVal } from 'elrondjs'
+import { extractEventData, sendIpcResponse, _ } from './utils'
 import { onceAppReady } from './App'
 import { GetWalletAddressOptions, IPC, IpcRequest, IpcResponse, IpcTarget } from './types/all'
 import { IpcBase } from './utils'
@@ -23,16 +23,19 @@ export const initWidget = () => {
       getAddress (address: string): Promise<Address> {
         return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'getAddress', params: [ address ] })
       }
+      getESDTData(address: string, token: string): Promise<TokenData> {
+        return this._callIpc(IPC.CALL_PROXY_PROVIDER, { method: 'getESDTData', params: [address, token] })
+      }
       queryContract (params: ContractQueryParams): Promise<ContractQueryResult> {
         throw new Error('Security check - method not allowed from within widget: queryContract')
       }
-      sendSignedTransaction (signedTx: SignedTransaction): Promise<TransactionReceipt> {
+      sendSignedTransaction (signedTx: SignedTransaction): Promise<string> {
         throw new Error('Security check - method not allowed from within widget: sendSignedTransaction')
       }
       getTransaction (txHash: string): Promise<TransactionOnChain> {
         throw new Error('Security check - method not allowed from within widget: getTransaction')
       }
-      waitForTransaction(txHash: string): Promise<TransactionOnChain> {
+      waitForTransaction(txHash: string): Promise<TransactionReceipt> {
         throw new Error('Security check - method not allowed from within widget: waitForTransaction')
       }
     }
@@ -40,7 +43,7 @@ export const initWidget = () => {
     let ipcProvider: IpcProvider
 
     Window.addEventListener('message', async (e: any) => {
-      const eventData = _.get(e, 'data', {})
+      const eventData = extractEventData(e)
       
       const { target, id, type, data } = eventData as IpcRequest
 
@@ -48,11 +51,11 @@ export const initWidget = () => {
         const App = await onceAppReady()
 
         let ret
-
+      
         try {
           switch (type as IPC) {
             case IPC.PROVIDER_CHANGED:
-              const networkConfig: NetworkConfig = data
+              const networkConfig = data as NetworkConfig
               ipcProvider = new IpcProvider(networkConfig)
               App.setProvider(ipcProvider)
               ret = true

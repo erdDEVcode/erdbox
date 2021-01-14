@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { flex } from 'emotion-styled-utils'
-import { LedgerWallet, SignedTransaction, Transaction } from 'elrondjs'
+import { LedgerWallet, SignedTransaction, Transaction, BigVal } from 'elrondjs'
 
 import { AssetValueNumberStyle } from '../../utils'
 import Button from '../Button'
@@ -114,11 +114,11 @@ const ConfirmForm: React.FunctionComponent<Props> = ({
 
     setSigning(true)
     setError('')
-    
+
     const tx: Transaction = {
       sender: fromValue,
       receiver: toValue,
-      value: transferValueDec.toString({ numberStyle: AssetValueNumberStyle.RAW }),
+      value: new BigVal(transferValueDec.toString({ numberStyle: AssetValueNumberStyle.RAW })),
       gasPrice: gasPriceValueDec.toNumber({ numberStyle: AssetValueNumberStyle.RAW }),
       gasLimit: gasLimitValue,
       data: dataValue,

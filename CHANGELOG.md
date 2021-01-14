@@ -1,3 +1,5 @@
+# [1.11.0](https://github.com/erdDEVcode/connect/compare/v1.10.3...v1.11.0) (2021-01-14)
+
 ## [1.10.3](https://github.com/erdDEVcode/connect/compare/v1.10.2...v1.10.3) (2021-01-09)
 
 ## [1.10.2](https://github.com/erdDEVcode/connect/compare/v1.10.1...v1.10.2) (2020-12-29)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Wallet } from 'elrondjs'
+import { BasicWallet, Wallet, WalletBase } from 'elrondjs'
 
 const getWalletIndex = (wallets: Wallet[], w: Wallet) => wallets.findIndex((a: Wallet) => a.address() === w.address())
 
@@ -13,6 +13,9 @@ export interface GlobalContextValue {
 
 const GlobalContext = React.createContext({} as GlobalContextValue)
 
+const SESSIONSTORAGE_DEBUG_KEY = 'erdbox-debug'
+const SESSIONSTORAGE_DEBUG_WALLET_KEY = 'erdbox-debug-wallet'
+
 interface GlobalProviderState {
   wallets: Wallet[],
   activeWallet?: Wallet,
@@ -20,10 +23,35 @@ interface GlobalProviderState {
 
 const initialWallets: Wallet[] = []
 
+try {
+  if (window.sessionStorage.getItem(SESSIONSTORAGE_DEBUG_KEY)) {
+    const ws = window.sessionStorage.getItem(SESSIONSTORAGE_DEBUG_WALLET_KEY)
+
+    if (ws) {
+      if (BasicWallet.canDeserialize(ws)) {
+        initialWallets.push(BasicWallet.fromSerialized(ws))
+      }
+    }
+  }
+} catch (err) {
+  console.warn('Deserialization of debug session wallet failed', err)
+}
+
+
 export class GlobalProvider extends React.Component {
   state: GlobalProviderState = {
     wallets: initialWallets,
     activeWallet: initialWallets[0],
+  }
+
+  componentDidUpdate (oldProps: any, oldState: GlobalProviderState) {
+    // changed?
+    if (oldState.activeWallet !== this.state.activeWallet) {
+      if (window.sessionStorage.getItem(SESSIONSTORAGE_DEBUG_KEY)) {
+        const w: WalletBase = this.state.activeWallet as WalletBase
+        window.sessionStorage.setItem(SESSIONSTORAGE_DEBUG_WALLET_KEY, w.serialize())
+      }
+    }
   }
 
   render () {

@@ -69,7 +69,7 @@
     "crypto-browserify": "^3.12.0",
     "decimal.js": "^10.2.1",
     "elrond-data": "^1.2.0",
-    "elrondjs": "^2.5.0",
+    "elrondjs": "^2.6.0",
     "emotion-styled-utils": "^2.3.2",
     "emotion-theming": "^10.0.27",
     "framer-motion": "^2.9.4",

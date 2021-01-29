@@ -250,12 +250,17 @@ export default (): any => ({
       borderColor: paleCerulean,
     }
   },
-  addWallet: {
-    button: {
-      icon: {
-        color: deepSaffron,
-      },
+  addWalletModal: {
+    activeTab: {
+      bgColor: white,
+      borderColor: white,
+      textColor: black,
     },
+    inactiveTab: {
+      bgColor: darkGrey,
+      borderColor: darkGrey,
+      textColor: black,
+    }
   },
   openLedger: {
     error: {

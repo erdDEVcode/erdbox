@@ -5,6 +5,7 @@ import { Wallet } from 'elrondjs'
 import ValueBox from '../ValueBox'
 
 const Container = styled(ValueBox)`
+  max-width: 350px;
 `
 
 const Text = styled.div`

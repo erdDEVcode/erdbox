@@ -15,16 +15,16 @@ const Container = styled.div`
 
 const StyledTextArea = styled(TextArea)`
   height: 80px;
-  width: 400px;
+  width: 350px;
 `
 
 const PasswordInput = styled(TextInput)`
   margin-top: 1rem;
+  max-width: 350px;
 `
 
 const StyledResolvedWallet = styled(ResolvedWallet)`
   margin-top: 2rem;
-  max-width: 400px;
 `
 
 const StyledFileInput = styled(FileInput)`

@@ -33,7 +33,6 @@ const RefreshButton = styled(SmallButton)`
 
 const StyledResolvedWallet = styled(ResolvedWallet)`
   margin-top: 2rem;
-  max-width: 400px;
 `
 
 const TestButton = styled(Button)`
@@ -51,12 +50,12 @@ const TestInstructions = styled.p`
 `
 
 const Words = styled.div`
-  ${flex({ direction: 'row', justify: 'center', align: 'center' })};
+  ${flex({ direction: 'row', justify: 'center', align: 'center', wrap: 'wrap' })};
   flex: 0;
 `
 
 const WordInput = styled(TextInput)`
-  margin: 0 0.5rem;
+  margin: 0.5rem;
   width: 150px;
 `
 

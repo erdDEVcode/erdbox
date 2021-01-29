@@ -12,12 +12,11 @@ const Container = styled.div`
 
 const StyledTextArea = styled(TextArea)`
   height: 140px;
-  width: 400px;
+  max-width: 350px;
 `
 
 const StyledResolvedWallet = styled(ResolvedWallet)`
   margin-top: 2rem;
-  max-width: 400px;
 `
 
 interface Props {

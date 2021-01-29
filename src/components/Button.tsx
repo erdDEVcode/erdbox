@@ -8,9 +8,9 @@ import { ButtonProps } from './interfaces'
 
 const StyledButton = styled.button`
   ${(p: any) => p.theme.font('body', 'light')};
+  border-radius: 5px;
   font-size: 1.2rem;
   padding: 1em 2em;
-  border-radius: 5px;
 
   ${({ disabled, ...p }) => buttonStyles({
     ...p.theme.button,

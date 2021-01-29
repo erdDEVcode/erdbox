@@ -10,21 +10,32 @@ export const ButtonContainer = styled.div`
 `
 
 const StyledButton = styled(DefaultButton)`
-  margin: 1rem;
   width: 12em;
-  height: 100px;
+  margin: 1.5rem;
+  height: 60px;
+
+  ${(p: any) => p.theme.media.when({ minW: 'desktop' })} {
+    height: 100px;
+  }
 `
 
 const ButtonContent = styled.div`
   ${flex({ direction: 'row', justify: 'center', align: 'center' })};
 
   svg {
-    width: 64px;
-    height: 64px;
+    width: 32px;
+    height: 32px;
     margin-right: 0.5rem;    
 
     path {
       fill: inherit;
+    }
+  }
+
+  ${(p: any) => p.theme.media.when({ minW: 'desktop' })} {
+    svg {
+      width: 64px;
+      height: 64px;
     }
   }
 `

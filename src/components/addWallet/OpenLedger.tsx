@@ -23,7 +23,6 @@ const StyledError = styled(ErrorBox)`
 
 const StyledResolvedWallet = styled(ResolvedWallet)`
   margin-top: 2rem;
-  max-width: 400px;
 `
 
 const Content = styled.div`

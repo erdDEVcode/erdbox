@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/erdDEVcode/connect/compare/v1.11.0...v1.12.0) (2021-01-29)
+
+
+### Features
+
+* wallet cacehing for devs ([40d32b6](https://github.com/erdDEVcode/connect/commit/40d32b6a16cb1b9c1299548fd86e70b66d80c1eb))
+
 # [1.11.0](https://github.com/erdDEVcode/connect/compare/v1.10.3...v1.11.0) (2021-01-14)
 
 ## [1.10.3](https://github.com/erdDEVcode/connect/compare/v1.10.2...v1.10.3) (2021-01-09)

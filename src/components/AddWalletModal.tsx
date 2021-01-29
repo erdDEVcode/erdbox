@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { PromiseResolver } from 'elrond-data'
+import styled from '@emotion/styled'
 
 import { _ } from '../utils'
 import Modal from './Modal'
@@ -34,8 +35,6 @@ export default class AddWalletModal extends Component<Props> implements AddWalle
     return (
       <Modal 
         isOpen={isActive} 
-        width='640px' 
-        height='640px' 
         onRequestClose={onRequestClose}
       >
         <AddWallet onComplete={onComplete} />

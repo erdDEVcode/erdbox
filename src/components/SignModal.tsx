@@ -38,8 +38,6 @@ export default class SignModal extends Component<Props> implements SignModalInte
         {globalCtx => (
           <Modal
             isOpen={isActive}
-            width='700px'
-            height='640px'
             onRequestClose={() => onRequestClose ? onRequestClose(globalCtx.activeWallet!) : null}
           >
             <Sign isActive={isActive} {...otherProps} />

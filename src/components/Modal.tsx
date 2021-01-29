@@ -2,15 +2,9 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { ClassNames } from '@emotion/core'
 import { useTheme } from 'emotion-theming'
-import { flex, boxShadow } from 'emotion-styled-utils'
+import { flex, boxShadow, smoothTransitions } from 'emotion-styled-utils'
 import ReactModal, { Props as DefaultProps } from 'react-modal'
 
-
-const Container = styled.div`
-  height: 100%;
-  background-color: ${(p: any) => p.theme.modal.bgColor};
-  color: ${(p: any) => p.theme.modal.textColor};
-`
 
 interface Props extends DefaultProps {
   width?: string | number,
@@ -18,7 +12,7 @@ interface Props extends DefaultProps {
   className?: string,
 }
 
-const Modal: React.FunctionComponent<Props> = ({ width, height, className, children, ...props }) => {
+const Modal: React.FunctionComponent<Props> = ({ className, children, ...props }) => {
   const theme: any = useTheme()
 
   return (
@@ -27,18 +21,15 @@ const Modal: React.FunctionComponent<Props> = ({ width, height, className, child
         <ReactModal
           className={{
             base: css`
-              ${boxShadow({ color: theme.modal.shadowColor })};
-              width: ${width || '80%'};
-              max-width: 80%;
-              height: ${height || 'auto'};
-              border-radius: 10px;
-              width: ${width || '400px'};
-              height: ${height || 'auto'};
+              ${flex({ direction: 'column', justify: 'center', align: 'center' })};
+              width: 85%;
+              max-width: 700px;
+              height: 80%;
+              max-height: 640px;
+              margin: auto;
               outline: none;
-              overflow: hidden;
             `,
-            afterOpen: css`
-            `,
+            afterOpen: '',
             beforeClose: '',
           }}
           overlayClassName={{
@@ -60,9 +51,7 @@ const Modal: React.FunctionComponent<Props> = ({ width, height, className, child
           }}
           {...props}
         >
-          <Container className={className}>
-            {children}
-          </Container>
+          {children}
         </ReactModal>
       )}
     </ClassNames>

@@ -13,7 +13,14 @@ import SignModal from './components/SignModal'
 import AddWalletModal from './components/AddWalletModal'
 import { GetWalletAddressOptions } from './types/all'
 
-const themes = setupThemes()
+const themes = setupThemes({
+  width: {
+    desktop: '700px',
+  },
+  height: {
+    tall: '800px',
+  }  
+})
 
 loadFonts({
   body: {

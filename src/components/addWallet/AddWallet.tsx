@@ -1,26 +1,63 @@
 import React, { useCallback, useState } from 'react'
 import styled from '@emotion/styled'
-import { flex } from 'emotion-styled-utils'
+import { flex, boxShadow, smoothTransitions } from 'emotion-styled-utils'
 
 import Button from '../Button'
 import CreateWallet from './CreateWallet'
 import OpenWallet from './OpenWallet'
 import RenderProcess from './RenderProcess'
 import { WALLET_PROCESS } from '../../constants'
-import SlidingPanels from '../SlidingPanels'
-
-const HEIGHT = '640px'
 
 const Container = styled.div`
-  width: 640px;
-  height: 640px;
-  overflow: hidden;
+  width: 100%;
+  margin: auto;
+` 
+
+const FirstPanel = styled.div`
+  ${(p: any) => boxShadow({ color: p.theme.modal.shadowColor })};
+  position: relative;
+  width: 100%;
+  display: ${(p: any) => p.isActive ? 'block': 'none'};;
+  height: 350px;
 `
 
-const Panel = styled.div`
-  ${flex({ direction: 'column', justify: 'center', align: 'center' })};
-  width: 100%;
-  height: ${HEIGHT};
+const NextPanel = styled(FirstPanel)`
+  background-color: ${(p: any) => p.theme.addWalletModal.activeTab.bgColor};
+  display: ${(p: any) => p.isActive ? 'block': 'none'};;
+  height: 640px;
+  border-radius: 10px;
+
+  & > div {
+    ${flex({ direction: 'column', justify: 'center', align: 'stretch' })};
+    height: 100%;
+  }
+`
+
+const Tabs = styled.div`
+  ${flex({ direction: 'row', justify: 'center', align: 'stretch', basis: 0 })};
+  border-collapse: collapse;
+`
+
+const Tab = styled.div`
+  ${flex({ direction: 'row', justify: 'center', align: 'center' })};
+  ${(p: any) => p.theme.font('header')};
+  font-size: ${(p: any) => p.isActive ? '1.2rem' : '1rem'};
+  padding: 0.5em;
+  background-color: ${(p: any) => p.isActive ? p.theme.addWalletModal.activeTab.bgColor : p.theme.addWalletModal.inactiveTab.bgColor};
+  border: 1px solid ${(p: any) => p.isActive ? p.theme.addWalletModal.activeTab.borderColor : p.theme.addWalletModal.inactiveTab.borderColor};
+  margin-bottom: -1px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+`
+
+const Section = styled.div`
+  ${(p: any) => p.isActive ? flex({ direction: 'column', justify: 'center', align: 'center' }) : 'display: none;'};
+  margin: 0 0 1rem;
+  height: 100%;
+  padding: 1rem;
+  background-color: ${(p: any) => p.theme.addWalletModal.activeTab.bgColor};
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 `
 
 const BackButton = styled(Button)`
@@ -31,12 +68,18 @@ const BackButton = styled(Button)`
   left: 10px;
 `
 
+const TABS = {
+  OPEN: 'open',
+  CREATE: 'create',
+}
+
 interface Props {
   className?: string
   onComplete?: () => void,
 }
 
 const AddWallet: React.FunctionComponent<Props> = ({ className, onComplete }) => {
+  const [tab, setTab] = useState<string>(TABS.OPEN)
   const [process, setProcess] = useState<string>('')
   const [processTick, setProcessTick] = useState(0) /* use this to ensure process gets reset each time */
   const [ showProcess, setShowProcess ] = useState<boolean>(false)
@@ -65,27 +108,41 @@ const AddWallet: React.FunctionComponent<Props> = ({ className, onComplete }) =>
     setProcess(WALLET_PROCESS.OPEN_LEDGER)
     toggleProcess()
   }, [ toggleProcess ])
+  
+  const selectOpen = useCallback(() => {
+    setTab(TABS.OPEN)
+  }, [])
+
+  const selectCreate = useCallback(() => {
+    setTab(TABS.CREATE)
+  }, [])
 
   return (
     <Container className={className}>
-      <SlidingPanels active={showProcess ? 1 : 0}>
-        <Panel>
-          <h2>Open existing wallet</h2>
+      <FirstPanel isActive={!showProcess}>
+        <Tabs>
+          <Tab isActive={tab === TABS.OPEN} onClick={selectOpen}>Open wallet</Tab>
+          <Tab isActive={tab === TABS.CREATE} onClick={selectCreate}>Create new</Tab>
+        </Tabs>
+        <Section isActive={tab === TABS.OPEN}>
           <OpenWallet
             openLedger={openLedger}
             openPassphrase={openPassphrase}
             openPemJson={openPemJson}
           />
-          <h2>Create new wallet</h2>
+        </Section>
+        <Section isActive={tab === TABS.CREATE}>
           <CreateWallet
             createPassphrase={createPassphrase}
           />
-        </Panel>
-        <Panel>
+        </Section>
+      </FirstPanel>
+      <NextPanel isActive={!!showProcess}>
+        <div>
           <BackButton onClick={toggleProcess}>← Back</BackButton>
           <RenderProcess key={processTick} process={process} onComplete={onComplete} />
-        </Panel>
-      </SlidingPanels>
+        </div>
+      </NextPanel>
     </Container>
   )
 }

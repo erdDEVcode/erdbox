@@ -135,6 +135,26 @@ The erdbox UI shows as a modal that overlays everything else on the page. The mo
 
 This makes integrating erdbox into your existing Dapp very easy and secure.
 
+## Debugging tools
+
+### Wallet cacheing
+
+**NOTE: This feature should only be used in development and not on production deployments since it poses a security risk.**
+
+When developing and/or debugging your Dapp it might be annoying to have to load in your wallet every time you refresh the page. Thankfully you can tell erdbox to _cache_ your loaded wallet in memory for the duration of your browser session.
+
+To do so, open up your browser's developer console and type:
+
+```
+window.sessionStorage.setItem('erdbox-debug', true);
+```
+
+Now, load in a non-Ledger wallet using the erdbox modal window, and then refresh the page. 
+
+Erdbox should still have your previously loaded wallet in memory. 
+
+The wallet will remain cached in memory until you close your browser tab/window.
+
 ## Self-hosting and IFPS
 
 One of the benefits of using erdbox is that you can, if you want, host it yourself instead of loading it from the CDN. This then also means that you can host your entire Dapp frontend on [IPFS](https://ipfs.io/), providing for a truly decentralized and uncensorable dapp. You would simply need to update the erdbox URL inside the `script` tag to point to your hosted/IPFS version:

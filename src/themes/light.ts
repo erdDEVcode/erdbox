@@ -148,8 +148,6 @@ export default (): any => ({
     overlay: {
       bgColor: 'rgba(0, 0, 0, 0.8)',
     },
-    bgColor: white,
-    textColor: black,
     shadowColor: 'rgba(0, 0, 0, 0.8)',
   },
   aboutModal: {
@@ -272,30 +270,6 @@ export default (): any => ({
   connectWalletModal: {
     footnote: {
       textColor: paleCerulean,
-    },
-  },
-  browser: {
-    configModal: {
-      allowedDapps: {
-        item: {
-          hover: {
-            borderColor: bdazzledBlue,
-          },
-        },
-      },
-    },
-    tab: {
-      active: {
-        bgColor: lighterGrey,
-        textColor: black,
-      },
-      inactive: {
-        bgColor: bdazzledBlue,
-        textColor: paleCerulean,
-      },
-      error: {
-        textColor: red,
-      },
     },
   },
   tooltip: {

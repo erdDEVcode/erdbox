@@ -4,9 +4,13 @@ import { IPC, IpcRequest, IpcResponse, IpcTarget } from "../types/all"
 import { _ } from './lodash'
 
 
-const serializeData = (data: Record<string, any>): string => {
+const serializeData = (data: any): string => {
   if (!data) {
     return data
+  }
+
+  if (typeof data !== 'object') {
+    return JSON.stringify(data)
   }
 
   const san = Object.keys(data).reduce((m, k) => {
@@ -27,6 +31,10 @@ const unserializeData = (data: string): any => {
   }
 
   const parsed = JSON.parse(data)
+
+  if (typeof parsed !== 'object') {
+    return parsed
+  }
 
   const ret = Object.keys(parsed).reduce((m, k: string) => {
     if (typeof parsed[k] === 'string' && parsed[k].startsWith('BigVal:')) {

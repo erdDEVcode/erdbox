@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { SignedTransaction, Transaction, Wallet } from 'elrondjs'
+import { flex, boxShadow, smoothTransitions } from 'emotion-styled-utils'
 
 import { Balances, Rates } from '../../types/all'
 import {
@@ -23,7 +24,9 @@ import ErrorBox from '../ErrorBox'
 import { useBalances, useRates } from '../../hooks'
 
 const Container = styled.div`
+  ${(p: any) => boxShadow({ color: p.theme.modal.shadowColor })};
   background-color: ${(p: any) => p.theme.content.bgColor};
+  border-radius: 10px;
   color: ${(p: any) => p.theme.content.textColor};
   padding: 2rem;
   width: 100%;

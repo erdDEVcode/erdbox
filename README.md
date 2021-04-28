@@ -1,8 +1,4 @@
-<p align="center">
-  <img width="250" height="250" src="https://raw.githubusercontent.com/erdDEVcode/erdbox/master/assets/logo.png">
-</p>
-
-# erdbox
+# DEPRECATED - erdbox is now deprecated and no longer maintained. Please use the [official starter dapp](https://github.com/ElrondNetwork/starter-dapp) instead.
 
 [![NPM module](https://badge.fury.io/js/erdbox.svg)](https://badge.fury.io/js/erdbox)
 [![Join the community](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg?color=0088cc)](https://t.me/erdDEV)
@@ -10,15 +6,13 @@
 
 Drop-in widget for connecting your [Elrond](https://elrond.com) dapp to user's wallets.
 
-Live demo: [Sting wallet](https://sting.erd.dev)
-
 * Supports all wallet types: Mnemonic/seedphrase, JSON keyfile, PEM file, Ledger hardware.
 * Full transaction signing (including smart contract interactions).
 * Easy and simple API.
 * Works with any frontend framework and/or vanilla JS.
 * Self-hosting and/or IPFS supported.
 * Typescript definitions.
-* Full [documentation](https://erdbox.erd.dev).
+* Full [documentation](https://github.com/erdDEVcode/erdbox/blob/master/docs/guide.md).
 
 ## Usage
 
@@ -51,8 +45,6 @@ window.addEventListener('erdbox:ready', async () => {
   alert(`User wallet address: ${address}`);
 }, { once: true });
 ```
-
-Full documentation is available at [https://erdbox.erd.dev](https://erdbox.erd.dev).
 
 ## Contributors guide
 
